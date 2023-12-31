@@ -373,6 +373,8 @@
   </a><!-- BEGIN sections: header-group -->
   <div id="section-sections--19417874596171__announcement-bar"
     class="section section-group-header-group announcement-bar-section">
+    <link href="/css/component-slideshow.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/component-slider.css" rel="stylesheet" type="text/css" media="all">
 
     <link href="/css/component-list-social.css" rel="stylesheet" type="text/css" media="all">
 
@@ -389,7 +391,10 @@
   <div id="section-sections--19417874596171__header"
     class="section section-group-header-group section-header">
     <link rel="stylesheet" href="/css/component-list-menu.css" media="all" onload="this.media=&#39;all&#39;">
+    <link rel="stylesheet" href="/css/component-search.css" media="all" onload="this.media=&#39;all&#39;">
     <link rel="stylesheet" href="/css/component-menu-drawer.css" media="all" onload="this.media=&#39;all&#39;">
+    <link rel="stylesheet" href="/css/component-price.css" media="all" onload="this.media=&#39;all&#39;">
+    <link rel="stylesheet" href="/css/component-loading-overlay.css" media="all" onload="this.media=&#39;all&#39;">
 
     <style>
       header-drawer {
@@ -581,7 +586,7 @@
                           </div>
                         </details>
                       </li>
-                      <li><a id="HeaderDrawer-om" href="https://shop.uttryckfull.se"
+                      <li><a id="HeaderDrawer-om" href="https://shop.uttrycksfull.se"
                         class="menu-drawer__menu-item list-menu__item link link--text focus-inset">
                         Webbshop
                       </a></li>
@@ -640,13 +645,13 @@
 
         <nav class="header__inline-menu">
           <ul class="list-menu list-menu--inline" role="list">
-            <li><a id="HeaderMenu-hem" href="./" class="header__menu-item list-menu__item link link--text focus-inset"
+            <li><a id="HeaderMenu-hem" href="/" class="header__menu-item list-menu__item link link--text focus-inset"
                 aria-current="page">
-                <span class="header__active-menu-item">Hem</span>
+                <span>Hem</span>
               </a></li>
             <li><a id="HeaderMenu-om" href="/pages/om"
                 class="header__menu-item list-menu__item link link--text focus-inset">
-                <span>Om</span>
+                <span class="header__active-menu-item">Om</span>
               </a></li>
             <li>
               <header-menu>
@@ -679,7 +684,7 @@
             </li>
             <li><a id="HeaderMenu-om" href="https://shop.uttrycksfull.se"
               class="header__menu-item list-menu__item link link--text focus-inset">
-              <span>Webbshop</span>
+              <span class="header__active-menu-item">Webbshop</span>
             </a></li>
           </ul>
         </nav>
@@ -697,47 +702,45 @@
   <!-- END sections: header-group -->
 
   <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-    <section id="section-template--19417874104651__5af3bdbb-ed18-46d8-829a-b416f9b68480"
-      class="section section">
-      <link href="/css/section-image-banner.css" rel="stylesheet" type="text/css" media="all">
+    <section id="section-template--19417874202955__main" class="section section">
+      <link href="/css/section-main-page.css" rel="stylesheet" type="text/css" media="all">
       <style>
-        #Banner-template--19417874104651__5af3bdbb-ed18-46d8-829a-b416f9b68480::after {
-          opacity: 0.0;
+        .section-template--19417874202955__main-padding {
+          padding-top: 27px;
+          padding-bottom: 27px;
+        }
+
+        @media screen and (min-width: 750px) {
+          .section-template--19417874202955__main-padding {
+            padding-top: 36px;
+            padding-bottom: 36px;
+          }
         }
       </style>
-      <div id="Banner-template--19417874104651__5af3bdbb-ed18-46d8-829a-b416f9b68480"
-        class="banner banner--content-align-center banner--content-align-mobile-center banner--medium banner--mobile-bottom banner--desktop-transparent scroll-trigger animate--fade-in">
-        <div class="banner__media media scroll-trigger animate--fade-in"><img src="/img/IMG_6536.jpg" alt=""
-            width="2912" height="4368.0" loading="lazy" sizes="100vw" style="object-position:27.8402% 29.0833%;">
-        </div>
-        <div class="banner__content banner__content--middle-center page-width scroll-trigger animate--slide-in">
-          <div class="banner__box content-container content-container--full-width-mobile color-background-1 gradient">
-            <div class="banner__buttons"><a href="/pages/uttrycksfull-inredning"
-                class="button button--primary">Inredning &amp; Kreativa miljöer</a></div>
-          </div>
-        </div>
-      </div>
-
-
-    </section>
-    <section id="section-template--19417874104651__61186fcc-3d3f-483a-b282-31a134b8ec0c"
-      class="section section">
-      <link href="/css/section-image-banner.css" rel="stylesheet" type="text/css" media="all">
-      <style>
-        #Banner-template--19417874104651__61186fcc-3d3f-483a-b282-31a134b8ec0c::after {
-          opacity: 0.0;
-        }
-      </style>
-      <div id="Banner-template--19417874104651__61186fcc-3d3f-483a-b282-31a134b8ec0c"
-        class="banner banner--content-align-center banner--content-align-mobile-center banner--medium banner--mobile-bottom banner--desktop-transparent scroll-trigger animate--fade-in">
-        <div class="banner__media media scroll-trigger animate--fade-in"><img src="/img/IMG-4269.jpg" alt=""
-            width="2316" height="3088.0" loading="lazy" sizes="100vw" style="object-position:44.3333% 41.5833%;">
-        </div>
-        <div class="banner__content banner__content--middle-center page-width scroll-trigger animate--slide-in">
-          <div class="banner__box content-container content-container--full-width-mobile color-background-1 gradient">
-            <div class="banner__buttons"><a href="/pages/uttrycksfull-vision"
-                class="button button--primary">Organisationsutveckling &amp; Coaching</a></div>
-          </div>
+      <div class="page-width page-width--narrow section-template--19417874202955__main-padding">
+        <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
+          Om
+        </h1>
+        <div class="rte scroll-trigger animate--slide-in">
+          <p><img src="/img/IMG-4269_480x480.jpg" alt="" width="311" height="415" data-mce-fragment="1"
+              style="float: right; padding: 16px; max-width: 50%;" class="norounding">Livet
+            är här och nu och efter att ha funderat i många år på att arbeta mer med det jag brinner för så tog jag nu
+            steget.</p>
+          <p>Har under lång tid väntat för att hitta det rätta tillfället men insåg att det kommer ju aldrig att komma
+            utan det behöver jag ju skapa själv. Sagt och gjort så gjorde jag utrymme i mitt liv och här är jag nu med
+            Uttrycksfull AB. Modigt tycker vissa och onödigt riskfyllt tycker en del men det viktigaste är ju att jag
+            faktiskt följer min passion, vågar prova och helhjärtat kasta mig ut. Nu vill jag arbeta med människor som
+            vill utvecklas och skapa vägen framåt för sig själva, sina arbetsplatser och organisationer. Som vågar visa
+            vad ni står för och vara med och forma framtiden.</p>
+          <p>Min passion för det kreativa i inredning och formgivning har nog nästan alltid varit med mig men kommit i
+            olika former och uttryck genom åren. Miljön runt om oss har stor påverkan på oss och kan få oss att känna
+            och tänka annorlunda och mer kreativt. Jag är säker på att vi dessutom kan skapa miljöer där hållbarhet inte
+            är en kompromiss utan ger det lilla extra, därför arbetar jag gärna med inredning som mixar nytt och gammalt
+            för att stärka det unika uttrycket för just er/dig.</p>
+          <p>Hållbarheten återfinns även i min webshop där jag samlar utvalda saker som med kärlek har betydligt mer att
+            ge och går under namnet Uttrycksfull igen. I webshopen finns också min egen konst som är mitt eget sätt att
+            ge uttryck för känslor och tankar. Mycket att uttrycka och därmed namnet, varmt välkommen till Uttrycksfull
+            AB.</p>
         </div>
       </div>
 
@@ -748,6 +751,7 @@
   <!-- BEGIN sections: footer-group -->
   <section id="section-sections--19417874563403__newsletter"
     class="section section-group-footer-group section">
+    <link href="/css/component-newsletter.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/newsletter-section.css" rel="stylesheet" type="text/css" media="all">
     <style>
       .section-sections--19417874563403__newsletter-padding {
@@ -775,7 +779,9 @@
   </section>
   <div id="section-sections--19417874563403__footer" class="section section-group-footer-group">
     <link href="/css/section-footer.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/component-newsletter.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/component-list-menu.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/component-list-payment.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/component-list-social.css" rel="stylesheet" type="text/css" media="all">
     <style>
       .footer {

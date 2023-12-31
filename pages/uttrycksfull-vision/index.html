@@ -519,7 +519,7 @@
                 <div class="menu-drawer__navigation-container">
                   <nav class="menu-drawer__navigation">
                     <ul class="menu-drawer__menu has-submenu list-menu" role="list">
-                      <li><a id="HeaderDrawer-hem" href="./"
+                      <li><a id="HeaderDrawer-hem" href="/"
                           class="menu-drawer__menu-item list-menu__item link link--text focus-inset menu-drawer__menu-item--active"
                           aria-current="page">
                           Hem
@@ -581,7 +581,7 @@
                           </div>
                         </details>
                       </li>
-                      <li><a id="HeaderDrawer-om" href="https://shop.uttryckfull.se"
+                      <li><a id="HeaderDrawer-om" href="https://shop.uttrycksfull.se"
                         class="menu-drawer__menu-item list-menu__item link link--text focus-inset">
                         Webbshop
                       </a></li>
@@ -640,9 +640,9 @@
 
         <nav class="header__inline-menu">
           <ul class="list-menu list-menu--inline" role="list">
-            <li><a id="HeaderMenu-hem" href="./" class="header__menu-item list-menu__item link link--text focus-inset"
+            <li><a id="HeaderMenu-hem" href="/" class="header__menu-item list-menu__item link link--text focus-inset"
                 aria-current="page">
-                <span class="header__active-menu-item">Hem</span>
+                <span>Hem</span>
               </a></li>
             <li><a id="HeaderMenu-om" href="/pages/om"
                 class="header__menu-item list-menu__item link link--text focus-inset">
@@ -653,7 +653,7 @@
                 <details id="Details-HeaderMenu-3">
                   <summary id="HeaderMenu-tjanster" class="header__menu-item list-menu__item link focus-inset"
                     role="button" aria-expanded="false" aria-controls="HeaderMenu-MenuList-3">
-                    <span>Tjänster</span>
+                    <span class="header__active-menu-item">Tjänster</span>
                     <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
                       <path fill-rule="evenodd" clip-rule="evenodd"
                         d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z"
@@ -697,47 +697,51 @@
   <!-- END sections: header-group -->
 
   <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-    <section id="section-template--19417874104651__5af3bdbb-ed18-46d8-829a-b416f9b68480"
-      class="section section">
-      <link href="/css/section-image-banner.css" rel="stylesheet" type="text/css" media="all">
+    <section id="section-template--19417874202955__main" class="section section">
+      <link href="/css/section-main-page.css" rel="stylesheet"
+        type="text/css" media="all">
       <style>
-        #Banner-template--19417874104651__5af3bdbb-ed18-46d8-829a-b416f9b68480::after {
-          opacity: 0.0;
+        .section-template--19417874202955__main-padding {
+          padding-top: 27px;
+          padding-bottom: 27px;
+        }
+
+        @media screen and (min-width: 750px) {
+          .section-template--19417874202955__main-padding {
+            padding-top: 36px;
+            padding-bottom: 36px;
+          }
         }
       </style>
-      <div id="Banner-template--19417874104651__5af3bdbb-ed18-46d8-829a-b416f9b68480"
-        class="banner banner--content-align-center banner--content-align-mobile-center banner--medium banner--mobile-bottom banner--desktop-transparent scroll-trigger animate--fade-in">
-        <div class="banner__media media scroll-trigger animate--fade-in"><img src="/img/IMG_6536.jpg" alt=""
-            width="2912" height="4368.0" loading="lazy" sizes="100vw" style="object-position:27.8402% 29.0833%;">
-        </div>
-        <div class="banner__content banner__content--middle-center page-width scroll-trigger animate--slide-in">
-          <div class="banner__box content-container content-container--full-width-mobile color-background-1 gradient">
-            <div class="banner__buttons"><a href="/pages/uttrycksfull-inredning"
-                class="button button--primary">Inredning &amp; Kreativa miljöer</a></div>
-          </div>
-        </div>
-      </div>
-
-
-    </section>
-    <section id="section-template--19417874104651__61186fcc-3d3f-483a-b282-31a134b8ec0c"
-      class="section section">
-      <link href="/css/section-image-banner.css" rel="stylesheet" type="text/css" media="all">
-      <style>
-        #Banner-template--19417874104651__61186fcc-3d3f-483a-b282-31a134b8ec0c::after {
-          opacity: 0.0;
-        }
-      </style>
-      <div id="Banner-template--19417874104651__61186fcc-3d3f-483a-b282-31a134b8ec0c"
-        class="banner banner--content-align-center banner--content-align-mobile-center banner--medium banner--mobile-bottom banner--desktop-transparent scroll-trigger animate--fade-in">
-        <div class="banner__media media scroll-trigger animate--fade-in"><img src="/img/IMG-4269.jpg" alt=""
-            width="2316" height="3088.0" loading="lazy" sizes="100vw" style="object-position:44.3333% 41.5833%;">
-        </div>
-        <div class="banner__content banner__content--middle-center page-width scroll-trigger animate--slide-in">
-          <div class="banner__box content-container content-container--full-width-mobile color-background-1 gradient">
-            <div class="banner__buttons"><a href="/pages/uttrycksfull-vision"
-                class="button button--primary">Organisationsutveckling &amp; Coaching</a></div>
-          </div>
+      <div class="page-width page-width--narrow section-template--19417874202955__main-padding">
+        <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
+          Organisationsutveckling &amp; Coaching
+        </h1>
+        <div class="rte scroll-trigger animate--slide-in">
+          <p>Äg din framtid, vad menas med det?</p>
+          <p>Oavsett om du jobbar själv eller om ni är ett team eller större organisation så lever vi i en omvärld som
+            vi hela tiden behöver anpassa oss efter. Det är ett samspel av att lyhört ta in omvärlden och att köra sitt
+            eget race. Det finns inget facit eller mall att följa men vi kan ta kommando över hur vi väljer att agera
+            och vad vi lägger fokus på. Hur kan ni som team ta tillvara varandras styrkor och rikta energin i samma
+            riktning? Har ni en gemensam plattform att stå på och vet ni vad ni förväntar er av varandra? Det cirkulerar
+            en massa teorier om hur man tar steget till nästa nivå och blir effektiva. Jag och mina samarbetspartners
+            utgår alltid från vetenskapliga grunder men det som gör skillnad är att göra det konkret och verkligt för er
+            i er vardag.</p>
+          <p>Jag är diplomerad coach (ICF) och vill ni erbjuda era medarbetare coaching inom tex ledarskapet går det att
+            kombinera med teamaktiviteter eller som en enskilt löpande aktivitet. Låt oss spåna tillsammans för det
+            bästa upplägget för er organisation.&nbsp;</p>
+          <p>Exempel på tjänster</p>
+          <ul>
+            <li>Teamutveckling</li>
+            <li>Coaching</li>
+            <li>Värderingar och gemensam plattform, även möjlighet till paketering och kommunicering genom tex film</li>
+          </ul>
+          <p>Varmt välkommen att höra av dig</p>
+          <p><img alt="" src="/img/IMG_4278_480x480.jpg"
+              width="231" height="308" class="norounding"></p>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
         </div>
       </div>
 
