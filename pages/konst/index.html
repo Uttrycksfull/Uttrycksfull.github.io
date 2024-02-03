@@ -368,6 +368,7 @@
     const init = () => {
       const productShow = document.getElementById('product_show');
       const showImageDialog = document.getElementById('image_show');
+      const showImageEl = document.getElementById('image_show_el');
       const list = document.getElementById('product_list');
       const productTitle = document.getElementById("productTitle");
       const mainImage = document.getElementById("mainImage");
@@ -391,12 +392,14 @@
           hide(productShow);
           hide(showImageDialog);
           hide(buyDialog);
+          document.body.classList.remove('overflow-hidden');
         }
       };
 
       window.onkeydown = (e) => {
         if (e.key === "Escape") {
           hide(showImageDialog);
+          document.body.classList.remove('overflow-hidden');
           hide(buyDialog);
         }
       };
@@ -421,12 +424,18 @@
 
       const showImage = (e) => {
         show(showImageDialog);
-        showImageDialog.children[0].src = e.srcElement.src.replace('small', 'large');
+        document.body.classList.add('overflow-hidden');
+        showImageEl.src = e.srcElement.src.replace('small', 'large');
         window.scrollTo(0, 0);
       };
 
-      image_show_close.onclick = () => hide(showImageDialog);
-      showImageDialog.onclick = () => hide(showImageDialog);
+      const hideImage = () => {
+        hide(showImageDialog);
+        document.body.classList.remove('overflow-hidden');
+      };
+
+      image_show_close.onclick = hideImage;
+      showImageDialog.onclick = hideImage;
       buyButton.onclick = () => show(buyDialog);
       closeBuyButton.onclick = () => hide(buyDialog);
 
@@ -476,13 +485,18 @@
     <button id="close_buy_button">Stäng</button>
   </div>
   <div id="image_show" class="image_show hidden">
-    <img>
+    <div class="image_show_outer">
       <button id="image_show_close">
         <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="icon icon-close" fill="none" viewBox="0 0 18 17">
-      <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
-    </path></svg>
-  </button>
-</div>
+          <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
+          </path>
+        </svg>
+      </button>
+      <div class="image_show_inner">
+        <img id="image_show_el">
+      </div>
+    </div>
+  </div>
 
   <a class="skip-to-content-link button visually-hidden" href="/#MainContent">
     Gå vidare till innehåll
