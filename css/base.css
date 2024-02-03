@@ -134,16 +134,20 @@
 }
 
 .product_buy {
-	position: sticky;
+	position: fixed;
 	width: 90%;
 	max-width: 1000px;
 	top: 10%;
-	left: 0px;
+	left: 5%;
 	z-index: 1000;
 	margin: auto;
 	background-color: lightgrey;
 	padding: 64px 64px;
 	text-align: center;
+	color: black;
+}
+
+.product_buy a {
 	color: black;
 }
 

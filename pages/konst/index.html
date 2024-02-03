@@ -381,28 +381,9 @@
       const buyButton = document.getElementById("buy_button");
       const closeBuyButton = document.getElementById("close_buy_button");
       const buyProductName = document.getElementById("product_buy_product_name");
-      
-      
-      const hide = (el) => el.classList.add('hidden')
-      const show = (el) => el.classList.remove('hidden')
+      const buyProductEmail = document.getElementById("product_buy_email");
 
-      window.onhashchange = () => {
-        if (!window.location.hash) {
-          show(list);
-          hide(productShow);
-          hide(showImageDialog);
-          hide(buyDialog);
-          document.body.classList.remove('overflow-hidden');
-        }
-      };
-
-      window.onkeydown = (e) => {
-        if (e.key === "Escape") {
-          hide(showImageDialog);
-          document.body.classList.remove('overflow-hidden');
-          hide(buyDialog);
-        }
-      };
+      const productById = {};
 
       Array.from(list.children).forEach(product=>{
         if (!product.attributes.name) {
@@ -411,7 +392,8 @@
         const div1 = document.createElement('div');
         const div2 = document.createElement('div');
         const img = document.createElement('img');
-        img.src = '/img/'+product.attributes.name.value+'/1_small.jpg';
+        const name = product.attributes.name.value;
+        img.src = '/img/'+name+'/1_small.jpg';
         div1.appendChild(img);
 
         div1.className = 'product_image';
@@ -420,56 +402,122 @@
 
         product.appendChild(div1);
         product.appendChild(div2);
-      });
 
-      const showImage = (e) => {
-        show(showImageDialog);
-        document.body.classList.add('overflow-hidden');
-        showImageEl.src = e.srcElement.src.replace('small', 'large');
-        window.scrollTo(0, 0);
+        productById[name] = product;
+      });
+      
+      const emailAddress = ['.com','ail', 'gm', '@','evelina.hall'].reverse().join('');
+      
+      const hide = (el) => el.classList.add('hidden');
+      const show = (el) => el.classList.remove('hidden');
+
+      const updateUi = () => {
+        const parts = (window.location.hash || '#').substring(1).split('-').filter(p=>p);
+
+        document.body.classList.remove('overflow-hidden');
+
+        if (parts.length >= 1) {
+          hide(list);
+          show(productShow);
+
+          const element = productById[parts[0]];
+
+          const title = element.children[1].innerText;
+          const name = element.attributes.name.value;
+          const images = parseInt(element.attributes.images.value);
+
+          productTitle.innerText = title;
+          const imageElements = [mainImage, img2, img3];
+          imageElements[0].src = '/img/'+name+'/1_small.jpg';
+          imageElements[1].src = images >= 2 ? '/img/'+name+'/2_small.jpg' : '';
+          imageElements[2].src = images >= 3 ? '/img/'+name+'/3_small.jpg' : '';
+          price.innerText = element.attributes.price.value + ' kr';
+          description.innerText = element.attributes.description.value;
+          hide(showImageDialog);
+          hide(buyDialog);
+
+          if (parts.length == 2) {
+            if (parts[1] === 'buy') {
+              buyProductName.innerText = title;
+              buyProductEmail.href = 'mailto:'+emailAddress+'?subject=Köpförfrågan '+title;
+              buyProductEmail.innerText = emailAddress;
+              show(buyDialog);
+            } else {
+              const index = parseInt(parts[1]) - 1;
+              show(showImageDialog);
+              document.body.classList.add('overflow-hidden');
+              showImageEl.src = imageElements[index].src.replace('small', 'large');
+              window.scrollTo(0, 0);
+            }
+          }
+        } else {
+          show(list);
+          hide(productShow);
+          hide(showImageDialog);
+          hide(buyDialog);
+        }
+      }
+
+      const setUrl = (hash) => {
+        const url = new URL(location);
+        if (url.hash !== '#'+hash) {
+          url.hash = hash;
+          history.pushState({}, "", url);
+        }
+        updateUi();
       };
 
-      const hideImage = () => {
-        hide(showImageDialog);
-        document.body.classList.remove('overflow-hidden');
+      window.addEventListener("hashchange", updateUi);
+
+      window.onkeydown = (e) => {
+        if (e.key === "Escape" && window.location.hash) {
+          const parts = window.location.hash.split('-');
+          if (parts.length == 2) {
+            setUrl(parts[0]);
+          } else {
+            setUrl(null);
+          }
+        }
+      };
+
+      const showImage = (i) => () => {
+        setUrl(window.location.hash.split('-')[0]+'-'+i);
+      };
+
+      const hideImage = (e) => {
+        if (window.location.hash) {
+          const parts = window.location.hash.split('-');
+          if (parts.length == 2) {
+            setUrl(parts[0]);
+          }
+        }
+        e.stopPropagation();
       };
 
       image_show_close.onclick = hideImage;
       showImageDialog.onclick = hideImage;
-      buyButton.onclick = () => show(buyDialog);
-      closeBuyButton.onclick = () => hide(buyDialog);
+      buyButton.onclick = () => {
+        const parts = window.location.hash.split('-');
+        setUrl(parts[0]+'-buy');
+      };
+      closeBuyButton.onclick = () => {
+        const parts = window.location.hash.split('-');
+        setUrl(parts[0]);
+      };
 
-      mainImage.onclick = showImage;
-      img2.onclick = showImage;
-      img3.onclick = showImage;
+      mainImage.onclick = showImage(1);
+      img2.onclick = showImage(2);
+      img3.onclick = showImage(3);
 
       const showProduct = (element) => {
-        hide(list);
-        show(productShow);
-
-        const title = element.children[1].innerText;
-        const name = element.attributes.name.value;
-        const images = parseInt(element.attributes.images.value);
-
-        productTitle.innerText = title;
-        buyProductName.innerText = title;
-        mainImage.src = '/img/'+name+'/1_small.jpg';
-        img2.src = images >= 2 ? '/img/'+name+'/2_small.jpg' : '';
-        img3.src = images >= 3 ? '/img/'+name+'/3_small.jpg' : '';
-        price.innerText = element.attributes.price.value + ' kr';
-        description.innerText = element.attributes.description.value;
-
-        const url = new URL(location);
-        if (url.hash !== name) {
-          url.hash = name;
-          history.pushState({}, "", url);
-        }
-        
+        setUrl(element.attributes.name.value);
       };
 
       list.childNodes.forEach(element => {
         element.onclick = ()=>showProduct(element);
       });
+
+      updateUi();
     }
   </script>
 </head>
@@ -477,7 +525,7 @@
 <body id="uttrycksfull" class="gradient" onload="init()">
   <div id="product_buy" class="product_buy hidden">
 
-    För att reservera tavlan, maila tavlans namn "<span id="product_buy_product_name"></span>" samt ditt namn och postadress till <b><script>document.write(['.com','ail', 'gm', '@','evelina.hall'].reverse().join(''))</script></b><br>
+    För att reservera tavlan, maila tavlans namn "<span id="product_buy_product_name"></span>" samt ditt namn och postadress till <b><a id="product_buy_email"></a></b><br>
     Jag kommer inom några dagar att kontakta er för att komma överens om leverans/frakt. Betalning sker vid leverans och görs genom Swish, alternativt banköverföring.
     <br><br>
     Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll). Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.
@@ -880,7 +928,7 @@
             <div name="kantigvarld" title="Kantig värld" images="3" price="10000" description="Akrylmålning i mått 102x102 cm inklusive betsad träram"></div>
             <div name="balansgang" title="Balansgång" images="3" price="2800" description="Akrylmålning i mått 52x72 cm inklusive betsad träram"></div>
             <div name="upprepning" title="Upprepning" images="3" price="2800" description="Akrylmålning i mått 52x72 cm inklusive betsad träram"></div>
-            <div name="volpe" title="Volpe" images="3" price="4800" description="Akrylmålning i mått 52x72 cm inklusive betsad träram"></div>
+            <div name="volpe" title="Volpe" images="3" price="4800" description="Akryl- och oljepastellmålning i mått 52x72 cm inklusive betsad träram"></div>
           </div>
         </div>
       </div>
