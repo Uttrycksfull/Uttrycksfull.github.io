@@ -481,12 +481,12 @@
         }
         updateUi();
 
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          'event': 'virtualPageview',
-          'pageUrl': window.location.href,
-          'pageTitle': window.document.title
+        if (gtag) {
+          gtag('event', 'page_view', {
+            page_title: window.document.title,
+            page_location: window.location.href
           });
+        }
       };
 
       window.addEventListener("hashchange", updateUi);
