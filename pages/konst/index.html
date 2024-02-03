@@ -466,6 +466,15 @@
 </head>
 
 <body id="uttrycksfull" class="gradient" onload="init()">
+  <div id="product_buy" class="product_buy hidden">
+
+    För att reservera tavlan, maila tavlans namn "<span id="product_buy_product_name"></span>" samt ditt namn och postadress till <b><script>document.write(['.com','ail', 'gm', '@','evelina.hall'].reverse().join(''))</script></b><br>
+    Jag kommer inom några dagar att kontakta er för att komma överens om leverans/frakt. Betalning sker vid leverans och görs genom Swish, alternativt banköverföring.
+    <br><br>
+    Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll). Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.
+    <br><br>
+    <button id="close_buy_button">Stäng</button>
+  </div>
   <div id="image_show" class="image_show hidden">
     <img>
       <button id="image_show_close">
@@ -826,27 +835,16 @@
         </h1>
         <div class="scroll-trigger animate--slide-in">
 
-          <div>
+          <div style="max-width: 750px;">
             <p style="text-align: left;">
-              <img src="/img/IMG_7188_fdc3c8bf-d7c6-4d20-86e0-91e4f689fc7e_480x480.jpg" alt="" width="153" height="230" style="float: right;" class="norounding">
+              <img src="/img/IMG_7188_fdc3c8bf-d7c6-4d20-86e0-91e4f689fc7e_480x480.jpg" alt="" width="153" height="230" style="float: right; padding: 16px;" class="norounding">
               Min egen konst som letar efter miljöer och hem att få förgylla. Konsten är för mig ett sätt att ge uttryck för känslor och tankar och det fina är att en tavla eller ett konstverk kan betyda något helt annat för dig än för mig. Därför är just konst ett utmärkt sätt att omge sig av hemma eller i den miljön man befinner sig i. Målar främst i akryl och med mycket känslor.
             </p>
             <p style="text-align: left;">Säljer min konst som verksam konstnär och ej under bolagsnamnet Uttrycksfull AB.</p>
           </div>
 
-          <br><br>
-
-          <div id="product_buy" class="product_buy hidden">
-
-            För att reservera tavlan, maila tavlans namn "<span id="product_buy_product_name"></span>" samt ditt namn och postadress till <b><script>document.write(['.com','ail', 'gm', '@','evelina.hall'].reverse().join(''))</script></b><br>
-            Jag kommer inom några dagar att kontakta er för att komma överens om leverans/frakt. Betalning sker vid leverans och görs genom Swish, alternativt banköverföring.
-            <br><br>
-            Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll). Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.
-
-            <button id="close_buy_button">Stäng</button>
-          </div>
           <div id="product_show" class="product_show hidden">
-            <div id="">
+            <div>
               <img id="mainImage">
               <div class="product_extra_images">
                 <img id="img2">
@@ -860,7 +858,6 @@
               <div id="description"></div>
               <button id="buy_button">Köp</button>
             </div>
-            
           </div>
           <div id="product_list" class="product_list">
             <div name="uppsyn" title="Uppsyn" images="3" price="7000" description="Akrylmålning i mått 102x82 cm inklusive vit träram"></div>

@@ -8,6 +8,7 @@
 .product_list>div {
 	width: 240px;
 	margin: 16px;
+	max-width: 40%;
 }
 
 .product_list>div:hover {
@@ -40,11 +41,12 @@
 
 .product_show {
 	display: flex;
+	width: 100%;
 	flex-wrap: wrap;
 }
 
 .product_show>div {
-	width: 430px;
+	width: min(430px, 90%);
 	margin: 16px;
 }
 
@@ -117,10 +119,15 @@
 }
 
 .product_buy {
-	position: absolute;
-	width: 80%;
+	position: sticky;
+	width: 90%;
+	max-width: 1000px;
+	top: 10%;
+	left: 0px;
+	z-index: 1000;
+	margin: auto;
 	background-color: lightgrey;
-	padding: 128px 64px;
+	padding: 64px 64px;
 	text-align: center;
 	color: black;
 }
