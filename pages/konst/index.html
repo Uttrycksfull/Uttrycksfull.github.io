@@ -364,10 +364,117 @@
     type="font/woff2" crossorigin="">
   <script>
     document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+
+    const init = () => {
+      const productShow = document.getElementById('product_show');
+      const showImageDialog = document.getElementById('image_show');
+      const list = document.getElementById('product_list');
+      const productTitle = document.getElementById("productTitle");
+      const mainImage = document.getElementById("mainImage");
+      const img2 = document.getElementById("img2");
+      const img3 = document.getElementById("img3");
+      const price = document.getElementById("price");
+      const description = document.getElementById("description");
+      const imageShowClose = document.getElementById("image_show_close");
+      const buyDialog = document.getElementById("product_buy");
+      const buyButton = document.getElementById("buy_button");
+      const closeBuyButton = document.getElementById("close_buy_button");
+      const buyProductName = document.getElementById("product_buy_product_name");
+      
+      
+      const hide = (el) => el.classList.add('hidden')
+      const show = (el) => el.classList.remove('hidden')
+
+      window.onhashchange = () => {
+        if (!window.location.hash) {
+          show(list);
+          hide(productShow);
+          hide(showImageDialog);
+          hide(buyDialog);
+        }
+      };
+
+      window.onkeydown = (e) => {
+        if (e.key === "Escape") {
+          hide(showImageDialog);
+          hide(buyDialog);
+        }
+      };
+
+      Array.from(list.children).forEach(product=>{
+        if (!product.attributes.name) {
+          return;
+        }
+        const div1 = document.createElement('div');
+        const div2 = document.createElement('div');
+        const img = document.createElement('img');
+        img.src = '/img/'+product.attributes.name.value+'/1_small.jpg';
+        div1.appendChild(img);
+
+        div1.className = 'product_image';
+        div2.className = 'product_title';
+        div2.innerText = product.attributes.title.value;
+
+        product.appendChild(div1);
+        product.appendChild(div2);
+      });
+
+      const showImage = (e) => {
+        show(showImageDialog);
+        showImageDialog.children[0].src = e.srcElement.src.replace('small', 'large');
+        window.scrollTo(0, 0);
+      };
+
+      image_show_close.onclick = () => hide(showImageDialog);
+      showImageDialog.onclick = () => hide(showImageDialog);
+      buyButton.onclick = () => show(buyDialog);
+      closeBuyButton.onclick = () => hide(buyDialog);
+
+      mainImage.onclick = showImage;
+      img2.onclick = showImage;
+      img3.onclick = showImage;
+
+      const showProduct = (element) => {
+        hide(list);
+        show(productShow);
+
+        const title = element.children[1].innerText;
+        const name = element.attributes.name.value;
+        const images = parseInt(element.attributes.images.value);
+
+        productTitle.innerText = title;
+        buyProductName.innerText = title;
+        mainImage.src = '/img/'+name+'/1_small.jpg';
+        img2.src = images >= 2 ? '/img/'+name+'/2_small.jpg' : '';
+        img3.src = images >= 3 ? '/img/'+name+'/3_small.jpg' : '';
+        price.innerText = element.attributes.price.value + ' kr';
+        description.innerText = element.attributes.description.value;
+
+        const url = new URL(location);
+        if (url.hash !== name) {
+          url.hash = name;
+          history.pushState({}, "", url);
+        }
+        
+      };
+
+      list.childNodes.forEach(element => {
+        element.onclick = ()=>showProduct(element);
+      });
+    }
   </script>
 </head>
 
-<body id="uttrycksfull" class="gradient">
+<body id="uttrycksfull" class="gradient" onload="init()">
+  <div id="image_show" class="image_show hidden">
+    <img>
+      <button id="image_show_close">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="icon icon-close" fill="none" viewBox="0 0 18 17">
+      <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
+    </path></svg>
+  </button>
+</div>
+
   <a class="skip-to-content-link button visually-hidden" href="/#MainContent">
     Gå vidare till innehåll
   </a><!-- BEGIN sections: header-group -->
@@ -713,29 +820,56 @@
           }
         }
       </style>
-      <div class="page-width page-width--narrow section-template--19417874202955__main-padding">
+      <div class="page-width section-template--19417874202955__main-padding">
         <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
           Uttrycksfull Konst
         </h1>
-        <div class="rte scroll-trigger animate--slide-in">
+        <div class="scroll-trigger animate--slide-in">
 
-          <p style="text-align: left;">
-            <img src="/img/IMG_7188_fdc3c8bf-d7c6-4d20-86e0-91e4f689fc7e_480x480.jpg" alt="" width="153" height="230" style="float: right;" class="norounding">Min egen konst som letar efter miljöer och hem att få förgylla. Konsten är för mig ett sätt att ge uttryck för känslor och tankar och det fina är att en tavla eller ett konstverk kan betyda något helt annat för dig än för mig. Därför är just konst ett utmärkt sätt att omge sig av hemma eller i den miljön man befinner sig i. Målar främst i akryl och med mycket känslor.</p>
+          <div>
+            <p style="text-align: left;">
+              <img src="/img/IMG_7188_fdc3c8bf-d7c6-4d20-86e0-91e4f689fc7e_480x480.jpg" alt="" width="153" height="230" style="float: right;" class="norounding">
+              Min egen konst som letar efter miljöer och hem att få förgylla. Konsten är för mig ett sätt att ge uttryck för känslor och tankar och det fina är att en tavla eller ett konstverk kan betyda något helt annat för dig än för mig. Därför är just konst ett utmärkt sätt att omge sig av hemma eller i den miljön man befinner sig i. Målar främst i akryl och med mycket känslor.
+            </p>
             <p style="text-align: left;">Säljer min konst som verksam konstnär och ej under bolagsnamnet Uttrycksfull AB.</p>
-            
+          </div>
 
           <br><br>
-          <div class="flexgrid">
-            <div class="column">
-              <img src="/img/B2D4B476-4CF1-4925-85D1-CC76647B6B39.jpg">
-              <img src="/img/fox2.jpg">
-              <img src="/img/Dining_area_with_wooden_furniture_2_527ce459-ea76-48ad-a7d4-d320467af6a6_2.jpg">
+
+          <div id="product_buy" class="product_buy hidden">
+
+            För att reservera tavlan, maila tavlans namn "<span id="product_buy_product_name"></span>" samt ditt namn och postadress till <b><script>document.write(['.com','ail', 'gm', '@','evelina.hall'].reverse().join(''))</script></b><br>
+            Jag kommer inom några dagar att kontakta er för att komma överens om leverans/frakt. Betalning sker vid leverans och görs genom Swish, alternativt banköverföring.
+            <br><br>
+            Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll). Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.
+
+            <button id="close_buy_button">Stäng</button>
+          </div>
+          <div id="product_show" class="product_show hidden">
+            <div id="">
+              <img id="mainImage">
+              <div class="product_extra_images">
+                <img id="img2">
+                <img id="img3">  
+              </div>
             </div>
-            <div class="column">
-              <img src="/img/IMG_7170_2_2.jpg">
-              <img src="/img/Paron2.jpg">
-              <img src="/img/Uppsyn2.png">
+            <div>
+              Uttrycksfull konst
+              <h1 id="productTitle"></h1>
+              <div id="price" style="font-size: larger;"></div>
+              <div id="description"></div>
+              <button id="buy_button">Köp</button>
             </div>
+            
+          </div>
+          <div id="product_list" class="product_list">
+            <div name="uppsyn" title="Uppsyn" images="3" price="7000" description="Akrylmålning i mått 102x82 cm inklusive vit träram"></div>
+            <div name="foraldraskap" title="Föräldraskap" images="3" price="8000" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>
+            <div name="andrum" title="Andrum" images="3" price="8000" description="Akrylmålning i mått 102x102 cm inklusive vit träram"></div>
+            <div name="kantigvarld" title="Kantig värld" images="3" price="10000" description="Akrylmålning i mått 102x102 cm inklusive betsad träram"></div>
+            <div name="balansgang" title="Balansgång" images="3" price="2800" description="Akrylmålning i mått 52x72 cm inklusive betsad träram"></div>
+            <div name="upprepning" title="Upprepning" images="3" price="2800" description="Akrylmålning i mått 52x72 cm inklusive betsad träram"></div>
+            <div name="volpe" title="Volpe" images="3" price="4800" description="Akrylmålning i mått 52x72 cm inklusive betsad träram"></div>
           </div>
         </div>
       </div>
