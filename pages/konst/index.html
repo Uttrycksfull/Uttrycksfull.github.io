@@ -486,12 +486,7 @@
       };
 
       const hideImage = (e) => {
-        if (window.location.hash) {
-          const parts = window.location.hash.split('-');
-          if (parts.length == 2) {
-            setUrl(parts[0]);
-          }
-        }
+        history.back();
         e.stopPropagation();
       };
 
@@ -502,8 +497,7 @@
         setUrl(parts[0]+'-buy');
       };
       closeBuyButton.onclick = () => {
-        const parts = window.location.hash.split('-');
-        setUrl(parts[0]);
+        history.back();
       };
 
       mainImage.onclick = showImage(1);
@@ -930,6 +924,20 @@
             <div name="balansgang" title="Balansgång" images="3" price="2800" description="Akrylmålning i mått 52x72 cm inklusive betsad träram"></div>
             <div name="upprepning" title="Upprepning" images="3" price="2800" description="Akrylmålning i mått 52x72 cm inklusive betsad träram"></div>
             <div name="volpe" title="Volpe" images="3" price="4800" description="Akryl- och oljepastellmålning i mått 52x72 cm inklusive betsad träram"></div>
+
+            <!--
+            <div name="andrum2" title="Andrum 2" images="3" price="8000" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>
+            <div name="jordnara" title="Jordnära" images="3" price="8000" description="Akrylmålning i mått 102x102 cm inklusive vit träram"></div>
+            <div name="betraktelse" title="Betraktelse" images="3" price="7000" description="Akrylmålning i mått 102x82 cm inklusive vit träram"></div>
+            <div name="narvarande" title="Närvarande" images="3" price="7000" description="Akrylmålning i mått 102x82 cm inklusive vit träram"></div>
+            <div name="distans" title="Distans" images="3" price="2500" description="Akrylmålning i mått 72x52 cm inklusive vit träram"></div>
+            <div name="vaxupp" title="Väx upp" images="3" price="2500" description="Akrylmålning i mått 52x52 cm inklusive vit träram"></div>
+
+            <div name="andrumglas" title="Andrum glasram" images="3" price="1400" description="Akryl på papper i mått 52x42 cm inklusive ram med glas"></div>
+            <div name="foraldraskapglas" title="Föräldraskap glasram" images="3" price="1400" description="Akryl på papper i mått 52x42 cm inklusive ram med glas"></div>
+            <div name="jordnaraglas" title="Jordnära glasram" images="3" price="1200" description="Akryl på papper i mått 42x32 cm inklusive ram med glas"></div>
+            <div name="iskuggaglas" title="I skugga glasram" images="3" price="1200" description="Akryl på papper i mått 42x32 cm inklusive ram med glas"></div>
+-->
           </div>
         </div>
       </div>
