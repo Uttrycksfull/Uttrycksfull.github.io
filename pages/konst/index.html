@@ -451,13 +451,17 @@
               buyProductEmail.href = 'mailto:'+emailAddress+'?subject=Köpförfrågan '+title;
               buyProductEmail.innerText = emailAddress;
               show(buyDialog);
+              window.document.title = 'Uttrycksfull - Konst - '+title+ ' - Köp';
             } else {
               const index = parseInt(parts[1]) - 1;
               show(showImageDialog);
               document.body.classList.add('overflow-hidden');
               showImageEl.src = imageElements[index].src.replace('small', 'large');
               window.scrollTo(0, 0);
+              window.document.title = 'Uttrycksfull - Konst - '+title+ ' - '+parts[1];
             }
+          } else {
+            window.document.title = 'Uttrycksfull - Konst - '+title;
           }
         } else {
           imageElements.forEach(el=>el.src='');
@@ -465,6 +469,7 @@
           hide(productShow);
           hide(showImageDialog);
           hide(buyDialog);
+          window.document.title = 'Uttrycksfull - Konst';
         }
       }
 
