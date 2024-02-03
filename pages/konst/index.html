@@ -415,6 +415,7 @@
         const parts = (window.location.hash || '#').substring(1).split('-').filter(p=>p);
 
         document.body.classList.remove('overflow-hidden');
+        const imageElements = [mainImage, img2, img3];
 
         if (parts.length >= 1) {
           hide(list);
@@ -427,7 +428,6 @@
           const images = parseInt(element.attributes.images.value);
 
           productTitle.innerText = title;
-          const imageElements = [mainImage, img2, img3];
           imageElements[0].src = '/img/'+name+'/1_small.jpg';
           imageElements[1].src = images >= 2 ? '/img/'+name+'/2_small.jpg' : '';
           imageElements[2].src = images >= 3 ? '/img/'+name+'/3_small.jpg' : '';
@@ -451,6 +451,7 @@
             }
           }
         } else {
+          imageElements.forEach(el=>el.src='');
           show(list);
           hide(productShow);
           hide(showImageDialog);
