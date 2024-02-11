@@ -435,6 +435,7 @@
           const title = element.children[1].innerText;
           const name = element.attributes.name.value;
           const images = parseInt(element.attributes.images.value);
+          const isSold = element.attributes.sold && element.attributes.sold.value === 'true';
 
           productTitle.innerText = title;
           imageElements[0].src = '/img/'+name+'/1_small.jpg';
@@ -444,6 +445,14 @@
           description.innerText = element.attributes.description.value;
           hide(showImageDialog);
           hide(buyDialog);
+
+          if (isSold) {
+            hide(buyButton);
+            productShow.classList.add('sold');
+          } else {
+            show(buyButton);
+            productShow.classList.remove('sold');
+          }
 
           if (parts.length == 2) {
             if (parts[1] === 'buy') {
@@ -941,6 +950,7 @@
             <div name="spelregler" title="Spelregler" images="3" price="8000" description="Akryl- och oljepastellmålning i mått 100x80 cm exkl ram. Pris inkl träram."></div>
             <div name="jordnara" title="Jordnära" images="3" price="8000" description="Akrylmålning i mått 102x102 cm inklusive vit träram"></div>
             <div name="andrum2" title="Andrum 2" images="3" price="8000" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>
+            <div name="socialbaksmalla" title="Social baksmalla - såld" images="2" price="8000" sold="true" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>
 
             <div name="uppsyn" title="Uppsyn" images="3" price="7000" description="Akrylmålning i mått 102x82 cm inklusive vit träram"></div>
             <div name="foraldraskap" title="Föräldraskap" images="3" price="8000" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>

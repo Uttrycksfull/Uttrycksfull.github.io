@@ -159,6 +159,10 @@
 	margin-bottom: 16px;
 }
 
+.product_show.sold #price{
+	text-decoration: line-through;
+}
+
 :root {
 	--alpha-button-background: 1;
 	--alpha-button-border: 1;
