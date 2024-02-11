@@ -465,7 +465,7 @@
               const index = parseInt(parts[1]) - 1;
               show(showImageDialog);
               document.body.classList.add('overflow-hidden');
-              showImageEl.src = imageElements[index].src.replace('small', 'large');
+              showImageEl.src = imageElements[index].src.replace('_small', '_large');
               window.scrollTo(0, 0);
               window.document.title = 'Uttrycksfull - Konst - '+title+ ' - '+parts[1];
             }
