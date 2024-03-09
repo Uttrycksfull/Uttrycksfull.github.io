@@ -791,7 +791,9 @@
             style="--animation-order: 1;">
             <div class="footer-block__details-content footer-block-image center">
               <div class="footer-block__image-wrapper" style="max-width: min(100%, 210px);">
-                <img src="/img/info.png" alt="" loading="lazy" width="310" height="108">
+                <a href="" id="info-link">
+                  <img src="/img/info.png" alt="" loading="lazy" width="310" height="108">
+                </a>
               </div>
             </div>
           </div>
@@ -836,7 +838,12 @@
     <li id="a11y-refresh-page-message">När du gör ett urval uppdateras sidan.</li>
     <li id="a11y-new-window-message">Öppnas i ett nytt fönster.</li>
   </ul>
-
+  <script>
+    window.addEventListener('load', ()=>{
+      const adr = ['.com','ail', 'gm', '@','ab','uttrycksfull'].reverse().join('');
+      document.getElementById('info-link').href='mailto:'+adr;
+    });
+  </script>
   <style>
     .flexgrid {
       display: flex;
