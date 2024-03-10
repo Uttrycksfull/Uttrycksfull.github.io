@@ -713,7 +713,7 @@
           </p>
           <p>Exempel på vad jag kan erbjuda</p>
           <ul>
-            <li>Konsultation, digitalt eller fysiskt möte där slutleverans innehåller moodboard och inköpslista.</li>
+            <li>Konsultation, digitalt eller fysiskt möte där slutleverans innehåller moodboard och inköpslista för t.ex. möbler, lampor & belysning, dekoration, gardiner & textilier.</li>
             <li>Skräddarsydd lösning där vi ser över just dina/era behov och önskemål, från inspiration, stöttning och planering till
               utförande, där jag kan agera länk mellan er och hantverkare.</li>
           </ul>
@@ -721,6 +721,8 @@
 
           <p>Kontakta mig för offert av arbetsplatsdesign, kontorsdesign eller utformning och inredning av affärslokaler! Utgår från Växjö men tar uppdrag i hela södra Sverige, t.ex. Kalmar, Karlskrona, Jönköping, Ljungby och Skåne. Givetvis börjar vi med ett helt förutsättningslöst och kostnadsfritt möte.</p>
 
+          <p><a href="" id="contact1"></a></p>
+          <br>
 
           <h2>För privatpersoner</h2>
           <p>Riktar mig även till privatpersoner som kanske inte vet eller har möjlighet att lägga tid på att skapa ett
@@ -729,6 +731,7 @@
 
           <p>Kontakta mig för ett förutsättningslöst och kostnadsfritt möte.</p>
 
+          <p><a href="" id="contact2"></a></p>
           <br><br>
           <div class="flexgrid">
             <div class="column">
@@ -871,9 +874,13 @@
     <li id="a11y-new-window-message">Öppnas i ett nytt fönster.</li>
   </ul>
   <script>
+    const adr = ['.com','ail', 'gm', '@','ab','uttrycksfull'].reverse().join('');
     window.addEventListener('load', ()=>{
-      const adr = ['.com','ail', 'gm', '@','ab','uttrycksfull'].reverse().join('');
       document.getElementById('info-link').href='mailto:'+adr;
+      document.getElementById('contact1').href='mailto:'+adr;
+      document.getElementById('contact1').innerHTML = adr;
+      document.getElementById('contact2').href='mailto:'+adr;
+      document.getElementById('contact2').innerHTML = adr;
     });
   </script>
   <style>
