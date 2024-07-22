@@ -52,6 +52,7 @@
 
 .product_show>div>img {
 	width: 100%;
+	cursor: pointer;
 }
 
 .product_show h1 {
@@ -76,6 +77,7 @@
 
 .product_extra_images>img {
 	width: 100%;
+	cursor: pointer;
 }
 
 .image_show {

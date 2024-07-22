@@ -420,6 +420,16 @@
       const hide = (el) => el.classList.add('hidden');
       const show = (el) => el.classList.remove('hidden');
 
+      const setSrc = (el, src) => {
+        if (src === '') {
+          el.style ='display: none';
+          el.src = '';
+        } else {
+          el.style = '';
+          el.src = src;
+        }
+      };
+
       const updateUi = () => {
         const parts = (window.location.hash || '#').substring(1).split('-').filter(p=>p);
 
@@ -438,9 +448,9 @@
           const isSold = element.attributes.sold && element.attributes.sold.value === 'true';
 
           productTitle.innerText = title;
-          imageElements[0].src = '/img/'+name+'/1_small.jpg';
-          imageElements[1].src = images >= 2 ? '/img/'+name+'/2_small.jpg' : '';
-          imageElements[2].src = images >= 3 ? '/img/'+name+'/3_small.jpg' : '';
+          setSrc(imageElements[0], '/img/'+name+'/1_small.jpg');
+          setSrc(imageElements[1], images >= 2 ? '/img/'+name+'/2_small.jpg' : '');
+          setSrc(imageElements[2], images >= 3 ? '/img/'+name+'/3_small.jpg' : '');
           price.innerText = element.attributes.price.value + ' kr';
           description.innerText = element.attributes.description.value;
           hide(showImageDialog);
@@ -908,7 +918,7 @@
               Min egen konst som letar efter miljöer och hem att få förgylla. Konsten är för mig ett sätt att ge uttryck för känslor och tankar och det fina är att en tavla eller ett konstverk kan betyda något helt annat för dig än för mig. Därför är just konst ett utmärkt sätt att omge sig av hemma eller i den miljön man befinner sig i. Målar främst i akryl och med mycket känslor.
             </p>
             <p style="text-align: left;">Säljer min konst som verksam konstnär och ej under bolagsnamnet Uttrycksfull AB.</p>
-            <p style="text-align: left;">Många av mina tavlor finns nu för visning och försäljning på restaurang <a href="https://keunjoo.se/">Keun Joo</a> i centrala Växjö samt i butiken <a href="https://norrgavel.se/information/kundservice/butiker">Norrgavel</a> i Lammhult.</p>
+            <p style="text-align: left;">Många av mina tavlor finns nu för visning och försäljning i butiken <a href="https://norrgavel.se/information/kundservice/butiker">Norrgavel</a> i Lammhult.</p>
           </div>
 
           <div id="product_show" class="product_show hidden">
@@ -928,6 +938,8 @@
             </div>
           </div>
           <div id="product_list" class="product_list">
+            <div name="odmjuk" title="Ödmjuk" images="2" price="7000" description="Akrylmålning i mått 82x102 cm inklusive vit träram"></div>
+
             <div name="reflektion" title="Reflektion" images="3" price="7000" description="Akrylmålning i mått 102x82 cm inklusive vit träram"></div>
             <div name="distans" title="Distans - Såld" images="3" price="2500" sold="true" description="Akrylmålning i mått 72x52 cm inklusive vit träram"></div>
             <div name="fundersam" title="Fundersam" images="2" price="8000" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>
