@@ -1,3 +1,192 @@
+document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+
+const init = () => {
+  const productShow = document.getElementById('product_show');
+  const showImageDialog = document.getElementById('image_show');
+  const showImageEl = document.getElementById('image_show_el');
+  const page = document.getElementById('MainContent');
+  const list = document.getElementById('product_list');
+  const productTitle = document.getElementById("productTitle");
+  const mainImage = document.getElementById("mainImage");
+  const img2 = document.getElementById("img2");
+  const img3 = document.getElementById("img3");
+  const price = document.getElementById("price");
+  const description = document.getElementById("description");
+  const imageShowClose = document.getElementById("image_show_close");
+  const buyDialog = document.getElementById("product_buy");
+  const buyButton = document.getElementById("buy_button");
+  const closeBuyButton = document.getElementById("close_buy_button");
+  const buyProductName = document.getElementById("product_buy_product_name");
+  const buyProductEmail = document.getElementById("product_buy_email");
+
+  const productById = {};
+
+  Array.from(list.children).forEach(product=>{
+    if (!product.attributes.name) {
+      return;
+    }
+    const div1 = document.createElement('div');
+    const div2 = document.createElement('div');
+    const img = document.createElement('img');
+    const name = product.attributes.name.value;
+    img.src = '/img/'+name+'/1_small.jpg';
+    div1.appendChild(img);
+
+    div1.className = 'product_image';
+    div2.className = 'product_title';
+    div2.innerText = product.attributes.title.value;
+
+    product.appendChild(div1);
+    product.appendChild(div2);
+
+    productById[name] = product;
+  });
+  
+  const emailAddress = ['.com','ail', 'gm', '@','evelina.hall'].reverse().join('');
+  
+  const hide = (el) => el.classList.add('hidden');
+  const show = (el) => el.classList.remove('hidden');
+
+  const setSrc = (el, src) => {
+    if (src === '') {
+      el.style ='display: none';
+      el.src = '';
+    } else {
+      el.style = '';
+      el.src = src;
+    }
+  };
+
+  const updateUi = () => {
+    const parts = (window.location.hash || '#').substring(1).split('-').filter(p=>p);
+
+    document.body.classList.remove('overflow-hidden');
+    const imageElements = [mainImage, img2, img3];
+
+    if (parts.length >= 1 && productById[parts[0]]) {
+      hide(page);
+      show(productShow);
+
+      const element = productById[parts[0]];
+
+      const title = element.children[1].innerText;
+      const name = element.attributes.name.value;
+      const images = parseInt(element.attributes.images.value);
+      const isSold = element.attributes.sold && element.attributes.sold.value === 'true';
+
+      productTitle.innerText = title;
+      setSrc(imageElements[0], '/img/'+name+'/1_small.jpg');
+      setSrc(imageElements[1], images >= 2 ? '/img/'+name+'/2_small.jpg' : '');
+      setSrc(imageElements[2], images >= 3 ? '/img/'+name+'/3_small.jpg' : '');
+      price.innerText = element.attributes.price.value + ' kr';
+      description.innerText = element.attributes.description.value;
+      hide(showImageDialog);
+      hide(buyDialog);
+
+      if (isSold) {
+        hide(buyButton);
+        productShow.classList.add('sold');
+      } else {
+        show(buyButton);
+        productShow.classList.remove('sold');
+      }
+
+      if (parts.length == 2) {
+        if (parts[1] === 'buy') {
+          buyProductName.innerText = title;
+          buyProductEmail.href = 'mailto:'+emailAddress+'?subject=Köpförfrågan '+title;
+          buyProductEmail.innerText = emailAddress;
+          show(buyDialog);
+          window.document.title = 'Uttrycksfull - Konst - '+title+ ' - Köp';
+        } else {
+          const index = parseInt(parts[1]) - 1;
+          show(showImageDialog);
+          document.body.classList.add('overflow-hidden');
+          showImageEl.src = imageElements[index].src.replace('_small', '_large');
+          window.scrollTo(0, 0);
+          window.document.title = 'Uttrycksfull - Konst - '+title+ ' - '+parts[1];
+        }
+      } else {
+        window.document.title = 'Uttrycksfull - Konst - '+title;
+      }
+    } else {
+      imageElements.forEach(el=>el.src='');
+      show(page);
+      hide(productShow);
+      hide(showImageDialog);
+      hide(buyDialog);
+      window.document.title = 'Uttrycksfull - Konst';
+
+      if (parts.length == 1) {
+        document.getElementById(parts[0])?.scrollIntoView();
+      }
+    }
+  }
+
+  const setUrl = (hash) => {
+    const url = new URL(location);
+    if (url.hash !== '#'+hash) {
+      url.hash = hash;
+      history.pushState({}, "", url);
+    }
+    updateUi();
+    window.scrollTo(0,0);
+
+    if (gtag) {
+      gtag('event', 'page_view', {
+        page_title: window.document.title,
+        page_location: window.location.href
+      });
+    }
+  };
+
+  window.addEventListener("hashchange", updateUi);
+
+  window.onkeydown = (e) => {
+    if (e.key === "Escape" && window.location.hash) {
+      const parts = window.location.hash.split('-');
+      if (parts.length == 2) {
+        setUrl(parts[0]);
+      } else {
+        setUrl('');
+      }
+    }
+  };
+
+  const showImage = (i) => () => {
+    setUrl(window.location.hash.split('-')[0]+'-'+i);
+  };
+
+  const hideImage = (e) => {
+    history.back();
+    e.stopPropagation();
+  };
+
+  image_show_close.onclick = hideImage;
+  showImageDialog.onclick = hideImage;
+  buyButton.onclick = () => {
+    const parts = window.location.hash.split('-');
+    setUrl(parts[0]+'-buy');
+  };
+  closeBuyButton.onclick = () => {
+    history.back();
+  };
+
+  mainImage.onclick = showImage(1);
+  img2.onclick = showImage(2);
+  img3.onclick = showImage(3);
+
+  const showProduct = (element) => {
+    setUrl(element.attributes.name.value);
+  };
+
+  list.childNodes.forEach(element => {
+    element.onclick = ()=>showProduct(element);
+  });
+
+  updateUi();
+}
+
 
 (function() {
   var __sections__ = {};
