@@ -252,9 +252,13 @@ class MenuDrawer extends HTMLElement {
       button.addEventListener('click', this.onCloseButtonClick.bind(this))
     );
 
-    this.querySelectorAll('a').forEach((button) =>
-      button.addEventListener('click', this.onCloseButtonClick.bind(this))
-    );
+    const s = this.mainDetailsToggle.querySelector('summary');
+    this.querySelectorAll('a').forEach((button) => {
+      button.addEventListener('click', ((e)=>{
+        this.closeMenuDrawer(e, s);
+        s.setAttribute('aria-expanded', false);
+    }).bind(this));
+  });
   }
 
   onKeyUp(event) {
