@@ -8,13 +8,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="">
   <title>
-    Uttrycksfull - Inredning av kontor och hem i Växjö med omnejd
+    Uttrycksfull - Konst för hem och kontor
   </title>
 
-  <meta name="keywords" content="inredning, kontor, växjö, konst">
-  <meta name="description" content="Inredning av kontor, affärslokaler och hem i Växjö med omnejd. Från inspiration och moodboards till hjälp med hela processen för att tillsammans med leverantörer och hantverkare skapa ett kontor eller hem med känsla. Vet ni vad ni vill ha, eller vill ni ha hjälp att ta reda på det?">
+  <meta property="og:site_name" content="Uttrycksfull">
+  <meta property="og:title" content="Uttrycksfull">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="Uttrycksfull">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Uttrycksfull">
+  <meta name="twitter:description" content="Uttrycksfull">
 
-<!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BZXZC4FWJ"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -368,10 +373,214 @@
     type="font/woff2" crossorigin="">
   <script>
     document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+
+    const init = () => {
+      const productShow = document.getElementById('product_show');
+      const showImageDialog = document.getElementById('image_show');
+      const showImageEl = document.getElementById('image_show_el');
+      const list = document.getElementById('product_list');
+      const productTitle = document.getElementById("productTitle");
+      const mainImage = document.getElementById("mainImage");
+      const img2 = document.getElementById("img2");
+      const img3 = document.getElementById("img3");
+      const price = document.getElementById("price");
+      const description = document.getElementById("description");
+      const imageShowClose = document.getElementById("image_show_close");
+      const buyDialog = document.getElementById("product_buy");
+      const buyButton = document.getElementById("buy_button");
+      const closeBuyButton = document.getElementById("close_buy_button");
+      const buyProductName = document.getElementById("product_buy_product_name");
+      const buyProductEmail = document.getElementById("product_buy_email");
+
+      const productById = {};
+
+      Array.from(list.children).forEach(product=>{
+        if (!product.attributes.name) {
+          return;
+        }
+        const div1 = document.createElement('div');
+        const div2 = document.createElement('div');
+        const img = document.createElement('img');
+        const name = product.attributes.name.value;
+        img.src = '/img/'+name+'/1_small.jpg';
+        div1.appendChild(img);
+
+        div1.className = 'product_image';
+        div2.className = 'product_title';
+        div2.innerText = product.attributes.title.value;
+
+        product.appendChild(div1);
+        product.appendChild(div2);
+
+        productById[name] = product;
+      });
+      
+      const emailAddress = ['.com','ail', 'gm', '@','evelina.hall'].reverse().join('');
+      
+      const hide = (el) => el.classList.add('hidden');
+      const show = (el) => el.classList.remove('hidden');
+
+      const setSrc = (el, src) => {
+        if (src === '') {
+          el.style ='display: none';
+          el.src = '';
+        } else {
+          el.style = '';
+          el.src = src;
+        }
+      };
+
+      const updateUi = () => {
+        const parts = (window.location.hash || '#').substring(1).split('-').filter(p=>p);
+
+        document.body.classList.remove('overflow-hidden');
+        const imageElements = [mainImage, img2, img3];
+
+        if (parts.length >= 1 && productById[parts[0]]) {
+          hide(list);
+          show(productShow);
+
+          const element = productById[parts[0]];
+
+          const title = element.children[1].innerText;
+          const name = element.attributes.name.value;
+          const images = parseInt(element.attributes.images.value);
+          const isSold = element.attributes.sold && element.attributes.sold.value === 'true';
+
+          productTitle.innerText = title;
+          setSrc(imageElements[0], '/img/'+name+'/1_small.jpg');
+          setSrc(imageElements[1], images >= 2 ? '/img/'+name+'/2_small.jpg' : '');
+          setSrc(imageElements[2], images >= 3 ? '/img/'+name+'/3_small.jpg' : '');
+          price.innerText = element.attributes.price.value + ' kr';
+          description.innerText = element.attributes.description.value;
+          hide(showImageDialog);
+          hide(buyDialog);
+
+          if (isSold) {
+            hide(buyButton);
+            productShow.classList.add('sold');
+          } else {
+            show(buyButton);
+            productShow.classList.remove('sold');
+          }
+
+          if (parts.length == 2) {
+            if (parts[1] === 'buy') {
+              buyProductName.innerText = title;
+              buyProductEmail.href = 'mailto:'+emailAddress+'?subject=Köpförfrågan '+title;
+              buyProductEmail.innerText = emailAddress;
+              show(buyDialog);
+              window.document.title = 'Uttrycksfull - Konst - '+title+ ' - Köp';
+            } else {
+              const index = parseInt(parts[1]) - 1;
+              show(showImageDialog);
+              document.body.classList.add('overflow-hidden');
+              showImageEl.src = imageElements[index].src.replace('_small', '_large');
+              window.scrollTo(0, 0);
+              window.document.title = 'Uttrycksfull - Konst - '+title+ ' - '+parts[1];
+            }
+          } else {
+            window.document.title = 'Uttrycksfull - Konst - '+title;
+          }
+        } else {
+          imageElements.forEach(el=>el.src='');
+          show(list);
+          hide(productShow);
+          hide(showImageDialog);
+          hide(buyDialog);
+          window.document.title = 'Uttrycksfull - Konst';
+        }
+      }
+
+      const setUrl = (hash) => {
+        const url = new URL(location);
+        if (url.hash !== '#'+hash) {
+          url.hash = hash;
+          history.pushState({}, "", url);
+        }
+        updateUi();
+
+        if (gtag) {
+          gtag('event', 'page_view', {
+            page_title: window.document.title,
+            page_location: window.location.href
+          });
+        }
+      };
+
+      window.addEventListener("hashchange", updateUi);
+
+      window.onkeydown = (e) => {
+        if (e.key === "Escape" && window.location.hash) {
+          const parts = window.location.hash.split('-');
+          if (parts.length == 2) {
+            setUrl(parts[0]);
+          } else {
+            setUrl(null);
+          }
+        }
+      };
+
+      const showImage = (i) => () => {
+        setUrl(window.location.hash.split('-')[0]+'-'+i);
+      };
+
+      const hideImage = (e) => {
+        history.back();
+        e.stopPropagation();
+      };
+
+      image_show_close.onclick = hideImage;
+      showImageDialog.onclick = hideImage;
+      buyButton.onclick = () => {
+        const parts = window.location.hash.split('-');
+        setUrl(parts[0]+'-buy');
+      };
+      closeBuyButton.onclick = () => {
+        history.back();
+      };
+
+      mainImage.onclick = showImage(1);
+      img2.onclick = showImage(2);
+      img3.onclick = showImage(3);
+
+      const showProduct = (element) => {
+        setUrl(element.attributes.name.value);
+      };
+
+      list.childNodes.forEach(element => {
+        element.onclick = ()=>showProduct(element);
+      });
+
+      updateUi();
+    }
   </script>
 </head>
 
-<body id="uttrycksfull" class="gradient">
+<body id="uttrycksfull" class="gradient" onload="init()">
+  <div id="product_buy" class="product_buy hidden">
+
+    För att reservera tavlan, maila tavlans namn "<span id="product_buy_product_name"></span>" samt ditt namn och postadress till <b><a id="product_buy_email"></a></b><br>
+    Jag kommer inom några dagar att kontakta er för att komma överens om leverans/frakt. Betalning sker vid leverans och görs genom Swish, alternativt banköverföring.
+    <br><br>
+    Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll). Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.
+    <br><br>
+    <button id="close_buy_button">Stäng</button>
+  </div>
+  <div id="image_show" class="image_show hidden">
+    <div class="image_show_outer">
+      <button id="image_show_close">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="icon icon-close" fill="none" viewBox="0 0 18 17">
+          <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
+          </path>
+        </svg>
+      </button>
+      <div class="image_show_inner">
+        <img id="image_show_el">
+      </div>
+    </div>
+  </div>
+
   <a class="skip-to-content-link button visually-hidden" href="/#MainContent">
     Gå vidare till innehåll
   </a><!-- BEGIN sections: header-group -->
@@ -523,72 +732,19 @@
                 <div class="menu-drawer__navigation-container">
                   <nav class="menu-drawer__navigation">
                     <ul class="menu-drawer__menu has-submenu list-menu" role="list">
-                      <li><a id="HeaderDrawer-hem" href="./"
-                          class="menu-drawer__menu-item list-menu__item link link--text focus-inset menu-drawer__menu-item--active"
-                          aria-current="page">
-                          Hem
-                        </a></li>
-                      <li><a id="HeaderDrawer-om" href="/pages/om"
-                          class="menu-drawer__menu-item list-menu__item link link--text focus-inset">
-                          Om
-                        </a></li>
-                      <li>
-                        <details id="Details-menu-drawer-menu-item-3">
-                          <summary id="HeaderDrawer-tjanster"
-                            class="menu-drawer__menu-item list-menu__item link link--text focus-inset" role="button"
-                            aria-expanded="false" aria-controls="link-tjanster">
-                            Tjänster
-                            <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false"
-                              class="icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
-                              <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z"
-                                fill="currentColor">
-                              </path>
-                            </svg>
-
-                            <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                              <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z"
-                                fill="currentColor">
-                              </path>
-                            </svg>
-
-                          </summary>
-                          <div id="link-tjanster" class="menu-drawer__submenu has-submenu gradient motion-reduce"
-                            tabindex="-1">
-                            <div class="menu-drawer__inner-submenu">
-                              <button class="menu-drawer__close-button link link--text focus-inset"
-                                aria-expanded="true">
-                                <svg viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false"
-                                  class="icon icon-arrow" xmlns="http://www.w3.org/2000/svg">
-                                  <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z"
-                                    fill="currentColor">
-                                  </path>
-                                </svg>
-
-                                Tjänster
-                              </button>
-                              <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
-                                <li><a id="HeaderDrawer-tjanster-inredning-kreativa-miljoer"
-                                    href="/pages/uttrycksfull-inredning"
-                                    class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
-                                    Inredning &amp; Kreativa miljöer
-                                  </a></li>
-                                <li><a id="HeaderDrawer-tjanster-organisationsutveckling-coaching"
-                                    href="/pages/uttrycksfull-vision"
-                                    class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
-                                    Organisationsutveckling &amp; Coaching
-                                  </a></li>
-                              </ul>
-                            </div>
-                          </div>
-                        </details>
-                      </li>
-                      <li><a id="HeaderDrawer-om" href="/pages/konst"
+                      <li><a id="HeaderDrawer-konst" href="#konst"
                         class="menu-drawer__menu-item list-menu__item link link--text focus-inset">
                         Konst
                       </a></li>
+                      <li><a id="HeaderDrawer-inredning" href="#inredning"
+                          class="menu-drawer__menu-item list-menu__item link link--text focus-inset menu-drawer__menu-item--active"
+                          aria-current="page">
+                          Inredning &amp; Kreativa miljöer
+                        </a></li>
+                      <li><a id="HeaderDrawer-om" href="#om"
+                          class="menu-drawer__menu-item list-menu__item link link--text focus-inset">
+                          Om
+                        </a></li>
                     </ul>
                   </nav>
                   <div class="menu-drawer__utility-links">
@@ -624,47 +780,18 @@
 
         <nav class="header__inline-menu">
           <ul class="list-menu list-menu--inline" role="list">
-            <li><a id="HeaderMenu-hem" href="./" class="header__menu-item list-menu__item link link--text focus-inset"
+            <li><a id="HeaderMenu-om" href="#konst"
+              class="header__menu-item list-menu__item link link--text focus-inset">
+              <span class="header__active-menu-item">Konst</span>
+            </a></li>
+            <li><a id="HeaderMenu-hem" href="#inredning" class="header__menu-item list-menu__item link link--text focus-inset"
                 aria-current="page">
-                <span class="header__active-menu-item">Hem</span>
+                <span>Inredning &amp; Kreativa miljöer</span>
               </a></li>
-            <li><a id="HeaderMenu-om" href="/pages/om"
+            <li><a id="HeaderMenu-om" href="#om"
                 class="header__menu-item list-menu__item link link--text focus-inset">
                 <span>Om</span>
               </a></li>
-            <li>
-              <header-menu>
-                <details id="Details-HeaderMenu-3">
-                  <summary id="HeaderMenu-tjanster" class="header__menu-item list-menu__item link focus-inset"
-                    role="button" aria-expanded="false" aria-controls="HeaderMenu-MenuList-3">
-                    <span>Tjänster</span>
-                    <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-                      <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z"
-                        fill="currentColor">
-                      </path>
-                    </svg>
-
-                  </summary>
-                  <ul id="HeaderMenu-MenuList-3"
-                    class="header__submenu list-menu list-menu--disclosure color-background-1 gradient caption-large motion-reduce global-settings-popup"
-                    role="list" tabindex="-1">
-                    <li><a id="HeaderMenu-tjanster-inredning-kreativa-miljoer" href="/pages/uttrycksfull-inredning"
-                        class="header__menu-item list-menu__item link link--text focus-inset caption-large">
-                        Inredning &amp; Kreativa miljöer
-                      </a></li>
-                    <li><a id="HeaderMenu-tjanster-organisationsutveckling-coaching" href="/pages/uttrycksfull-vision"
-                        class="header__menu-item list-menu__item link link--text focus-inset caption-large">
-                        Organisationsutveckling &amp; Coaching
-                      </a></li>
-                  </ul>
-                </details>
-              </header-menu>
-            </li>
-            <li><a id="HeaderMenu-om" href="/pages/konst"
-              class="header__menu-item list-menu__item link link--text focus-inset">
-              <span>Konst</span>
-            </a></li>
           </ul>
         </nav>
 
@@ -681,50 +808,182 @@
   <!-- END sections: header-group -->
 
   <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-    <section id="section-template--19417874104651__5af3bdbb-ed18-46d8-829a-b416f9b68480"
-      class="section section">
-      <link href="/css/section-image-banner.css" rel="stylesheet" type="text/css" media="all">
+    <section id="section-template--19417874202955__main" class="section section">
+      <link href="/css/section-main-page.css" rel="stylesheet"
+        type="text/css" media="all">
       <style>
-        #Banner-template--19417874104651__5af3bdbb-ed18-46d8-829a-b416f9b68480::after {
-          opacity: 0.0;
+        .section-template--19417874202955__main-padding {
+          padding-top: 27px;
+          padding-bottom: 27px;
+        }
+
+        @media screen and (min-width: 750px) {
+          .section-template--19417874202955__main-padding {
+            padding-top: 36px;
+            padding-bottom: 36px;
+          }
         }
       </style>
-      <div id="Banner-template--19417874104651__5af3bdbb-ed18-46d8-829a-b416f9b68480"
-        class="banner banner--content-align-center banner--content-align-mobile-center banner--medium banner--mobile-bottom banner--desktop-transparent scroll-trigger animate--fade-in">
-        <div class="banner__media media scroll-trigger animate--fade-in"><img src="/img/IMG_6536.jpg" alt=""
-            width="2912" height="4368.0" loading="lazy" sizes="100vw" style="object-position:27.8402% 29.0833%;">
-        </div>
-        <div class="banner__content banner__content--middle-center page-width scroll-trigger animate--slide-in">
-          <div class="banner__box content-container content-container--full-width-mobile color-background-1 gradient">
-            <div class="banner__buttons"><a href="/pages/uttrycksfull-inredning"
-                class="button button--primary">Inredning &amp; Kreativa miljöer</a></div>
+      <div class="page-width section-template--19417874202955__main-padding">
+        <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
+          Konst för hem och kontor<a name="konst"></a>
+        </h1>
+        <div class="scroll-trigger animate--slide-in">
+
+          <div id="product_show" class="product_show hidden">
+            <div>
+              <img id="mainImage">
+              <div class="product_extra_images">
+                <img id="img2">
+                <img id="img3">  
+              </div>
+            </div>
+            <div>
+              Uttrycksfull konst
+              <h1 id="productTitle"></h1>
+              <div id="price" style="font-size: larger;"></div>
+              <div id="description"></div>
+              <button id="buy_button">Köp</button>
+            </div>
+          </div>
+          <div id="product_list" class="product_list">
+            <!-- lägg till här -->
+
+            <div name="modigtskor" title="Modigt skör - Såld" images="1" sold="true" price="5800" description="Akrylmålning i mått 82x82 cm inklusive vit träram"></div>
+            
+            <div name="vaxupp" title="Väx upp - Såld" sold="true" images="2" price="2500" description="Akrylmålning i mått 52x52 cm inklusive vit träram"></div>
+            <div name="odmjuk" title="Ödmjuk - Såld" sold="true" images="2" price="7000" description="Akrylmålning i mått 82x102 cm inklusive vit träram"></div>
+
+            <div name="reflektion" title="Reflektion" images="3" price="7000" description="Akrylmålning i mått 102x82 cm inklusive vit träram"></div>
+            <div name="distans" title="Distans - Såld" images="3" price="2500" sold="true" description="Akrylmålning i mått 72x52 cm inklusive vit träram"></div>
+            <div name="fundersam" title="Fundersam" images="2" price="8000" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>
+            <div name="minandrahalft" title="Min andra hälft - Såld" sold="true" images="3" price="8000" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>
+
+            <div name="spelregler" title="Spelregler" images="3" price="8000" description="Akryl- och oljepastellmålning i mått 100x80 cm exkl ram. Pris inkl träram."></div>
+            <div name="jordnara" title="Jordnära" images="3" price="8000" description="Akrylmålning i mått 102x102 cm inklusive vit träram"></div>
+            <div name="andrum2" title="Andrum 2" images="3" price="8000" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>
+            <div name="socialbaksmalla" title="Social baksmälla - såld" images="2" price="8000" sold="true" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>
+
+            <div name="uppsyn" title="Uppsyn" images="3" price="7000" description="Akrylmålning i mått 102x82 cm inklusive vit träram"></div>
+            <div name="foraldraskap" title="Föräldraskap" images="3" price="8000" description="Akryl- och oljepastellmålning i mått 102x102 cm inklusive vit träram"></div>
+            <div name="andrum" title="Andrum" images="3" price="8000" description="Akrylmålning i mått 102x102 cm inklusive vit träram"></div>
+            <div name="kantigvarld" title="Kantig värld" images="3" price="10000" description="Akrylmålning i mått 102x102 cm inklusive betsad träram"></div>
+            <div name="balansgang" title="Balansgång" images="3" price="2800" description="Akrylmålning i mått 52x72 cm inklusive betsad träram"></div>
+            <div name="upprepning" title="Upprepning" images="3" price="2800" description="Akrylmålning i mått 52x72 cm inklusive betsad träram"></div>
+            <div name="volpe" title="Volpe" images="3" price="4800" description="Akryl- och oljepastellmålning i mått 52x72 cm inklusive betsad träram"></div>
+
+            <!--
+       
+            <div name="betraktelse" title="Betraktelse" images="3" price="7000" description="Akrylmålning i mått 102x82 cm inklusive vit träram"></div>
+            <div name="narvarande" title="Närvarande" images="3" price="7000" description="Akrylmålning i mått 102x82 cm inklusive vit träram"></div>
+
+            <div name="andrumglas" title="Andrum glasram" images="3" price="1400" description="Akryl på papper i mått 52x42 cm inklusive ram med glas"></div>
+            <div name="foraldraskapglas" title="Föräldraskap glasram" images="3" price="1400" description="Akryl på papper i mått 52x42 cm inklusive ram med glas"></div>
+            <div name="jordnaraglas" title="Jordnära glasram" images="3" price="1200" description="Akryl på papper i mått 42x32 cm inklusive ram med glas"></div>
+            <div name="iskuggaglas" title="I skugga glasram" images="3" price="1200" description="Akryl på papper i mått 42x32 cm inklusive ram med glas"></div>
+-->
+          </div>
+          <div style="max-width: 750px;">
+            <p style="text-align: left;">
+              <img src="/img/IMG_7188_fdc3c8bf-d7c6-4d20-86e0-91e4f689fc7e_480x480.jpg" alt="" width="153" height="230" style="float: right; padding: 16px;" class="norounding">
+              Min egen konst som letar efter miljöer och hem att få förgylla. Konsten är för mig ett sätt att ge uttryck för känslor och tankar och det fina är att en tavla eller ett konstverk kan betyda något helt annat för dig än för mig. Därför är just konst ett utmärkt sätt att omge sig av hemma eller i den miljön man befinner sig i. Målar främst i akryl och med mycket känslor.
+            </p>
+            <p style="text-align: left;">Säljer min konst som verksam konstnär och ej under bolagsnamnet Uttrycksfull AB.</p>
+            <p style="text-align: left;">Många av mina tavlor finns nu för visning och försäljning i butiken <a href="https://norrgavel.se/information/kundservice/butiker">Norrgavel</a> i Lammhult.</p>
           </div>
         </div>
       </div>
 
+      <div class="page-width page-width--narrow section-template--19417874202955__main-padding">
+        <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
+          Inredning &amp; Kreativa miljöer<a name="inredning"></a>
+        </h1>
+        <div class="rte scroll-trigger animate--slide-in">
+          <h2>För företag och organisationer</h2>
+          <p>Jag hjälper er som organisation med att inreda och formge för att stärka ert varumärke och verkligen visa
+            vad ni står för. Riktar mig till företag som vill ge uttryck för värderingar och skapa en miljö som tar fram
+            det unika med just er. Vill ni, men vet inte riktigt vad eller hur? Jag hjälper er och tillsammans sätter vi
+            ihop helheten för ett fysiskt uttryck som säger något om vilka just ni är! Jag använder mig av ett coachande 
+            förhållningssätt för att hjälpa er som företag att skapa de bästa förutsättningarna till en motiverande arbetsplats.
+          </p>
+          <p>Exempel på vad jag kan erbjuda</p>
+          <ul>
+            <li>Konsultation och inspiration, digitalt eller fysiskt möte där slutleverans innehåller moodboard och inköpslista för t.ex. möbler, lampor & belysning, dekoration, gardiner & textilier.</li>
+            <li>Skräddarsydd lösning där vi ser över just era behov och önskemål, från inspiration, stöttning och planering till
+              utförande, där jag kan agera länk mellan er och hantverkare under renovering av kontor eller lokaler.</li>
+          </ul>
+          <p></p>
 
-    </section>
-    <section id="section-template--19417874104651__61186fcc-3d3f-483a-b282-31a134b8ec0c"
-      class="section section">
-      <link href="/css/section-image-banner.css" rel="stylesheet" type="text/css" media="all">
-      <style>
-        #Banner-template--19417874104651__61186fcc-3d3f-483a-b282-31a134b8ec0c::after {
-          opacity: 0.0;
-        }
-      </style>
-      <div id="Banner-template--19417874104651__61186fcc-3d3f-483a-b282-31a134b8ec0c"
-        class="banner banner--content-align-center banner--content-align-mobile-center banner--medium banner--mobile-bottom banner--desktop-transparent scroll-trigger animate--fade-in">
-        <div class="banner__media media scroll-trigger animate--fade-in"><img src="/img/IMG-4269.jpg" alt=""
-            width="2316" height="3088.0" loading="lazy" sizes="100vw" style="object-position:44.3333% 41.5833%;">
-        </div>
-        <div class="banner__content banner__content--middle-center page-width scroll-trigger animate--slide-in">
-          <div class="banner__box content-container content-container--full-width-mobile color-background-1 gradient">
-            <div class="banner__buttons"><a href="/pages/konst"
-                class="button button--primary">Konst</a></div>
+          <p>Kontakta mig för offert av arbetsplatsdesign, kontorsdesign eller utformning och inredning av kontor och affärslokaler! Utgår från Växjö men tar uppdrag i hela södra Sverige, t.ex. Kalmar, Karlskrona, Jönköping, Ljungby och Skåne. Givetvis börjar vi med ett helt förutsättningslöst och kostnadsfritt möte.</p>
+
+          <p><a href="" id="contact1"></a></p>
+          <br>
+
+          <h2>För privatpersoner</h2>
+          <p>Riktar mig även till privatpersoner som kanske inte vet eller har möjlighet att lägga tid på att skapa ett
+            riktigt trivsamt hem. Hemmet ska spegla och uttrycka vilka det är som lever där, så att förstå och prata om
+            vad som är viktigt för just dig eller er som familj är en viktig del i processen.</p>
+
+          <p>Kontakta mig för ett förutsättningslöst och kostnadsfritt möte.</p>
+
+          <p><a href="" id="contact2"></a></p>
+          <br>
+
+          <h2>Utförda uppdrag</h2>
+          <h3>Södra Skog, områdeskontor</h3>
+          Renovering av kontor inklusive förändring av planlösning och interiör. Tät kontakt med beställare. Val av möbler och inredning, 
+          val av kulörer och textilier, skapande av väggdekoration, löpande kontakt med målare, snickare och elektriker samt leverantörer.
+
+          <div class="flexgrid">
+            <div class="column">
+              <img data-mce-fragment="1" alt=""
+                src="/img/IMG_6439_480x480.jpg">
+              <img data-mce-fragment="1" alt=""
+                src="/img/IMG_6408_480x480.jpg">
+              <img data-mce-fragment="1" alt=""
+                src="/img/IMG_6417_480x480.jpg">
+              <img data-mce-fragment="1" alt=""
+                src="/img/IMG_6536_480x480.jpg">
+            </div>
+            <div class="column">
+              <img data-mce-fragment="1" alt=""
+                src="/img/IMG_6523_480x480.jpg">
+              <img data-mce-fragment="1" alt=""
+                src="/img/IMG_6423_480x480.jpg">
+              <img data-mce-fragment="1" alt=""
+                src="/img/IMG_6493_480x480.jpg">
+              <img data-mce-fragment="1" alt=""
+                src="/img/IMG_6533_480x480.jpg">
+              <img data-mce-fragment="1" alt=""
+                src="/img/IMG_6507_a4565329-19da-455e-9cd1-54d8f775dde0_480x480.jpg">
+            </div>
           </div>
         </div>
       </div>
 
+      <div class="page-width page-width--narrow section-template--19417874202955__main-padding">
+        <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
+          Om<a name="om"></a>
+        </h1>
+        <div class="rte scroll-trigger animate--slide-in">
+          <p><img src="/img/IMG-4269_480x480.jpg" alt="" width="311" height="415" data-mce-fragment="1"
+              style="float: right; padding: 16px; max-width: 50%;" class="norounding">Livet
+            är här och nu och efter att ha funderat i många år på att arbeta mer med det jag brinner för så tog jag nu
+            steget.</p>
+          <p>Har under lång tid väntat för att hitta det rätta tillfället men insåg att det kommer ju aldrig att komma
+            utan det behöver jag ju skapa själv. Sagt och gjort så gjorde jag utrymme i mitt liv och här är jag nu med
+            Uttrycksfull AB. Modigt tycker vissa och onödigt riskfyllt tycker en del men det viktigaste är ju att jag
+            faktiskt följer min passion, vågar prova och helhjärtat kasta mig ut. Nu vill jag arbeta med människor som
+            vill utvecklas och skapa vägen framåt för sig själva, sina arbetsplatser och organisationer. Som vågar visa
+            vad ni står för och vara med och forma framtiden.</p>
+          <p>Min passion för det kreativa i inredning och formgivning har nog nästan alltid varit med mig men kommit i
+            olika former och uttryck genom åren. Miljön runt om oss har stor påverkan på oss och kan få oss att känna
+            och tänka annorlunda och mer kreativt. Jag är säker på att vi dessutom kan skapa miljöer där hållbarhet inte
+            är en kompromiss utan ger det lilla extra, därför arbetar jag gärna med inredning som mixar nytt och gammalt
+            för att stärka det unika uttrycket för just er/dig.</p>
+          <p>Därav namnet, varmt välkommen till Uttrycksfull AB.</p>
+        </div>
+      </div>
 
     </section>
   </main>
