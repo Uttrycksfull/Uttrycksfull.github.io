@@ -378,6 +378,7 @@
       const productShow = document.getElementById('product_show');
       const showImageDialog = document.getElementById('image_show');
       const showImageEl = document.getElementById('image_show_el');
+      const page = document.getElementById('MainContent');
       const list = document.getElementById('product_list');
       const productTitle = document.getElementById("productTitle");
       const mainImage = document.getElementById("mainImage");
@@ -437,7 +438,7 @@
         const imageElements = [mainImage, img2, img3];
 
         if (parts.length >= 1 && productById[parts[0]]) {
-          hide(list);
+          hide(page);
           show(productShow);
 
           const element = productById[parts[0]];
@@ -484,7 +485,7 @@
           }
         } else {
           imageElements.forEach(el=>el.src='');
-          show(list);
+          show(page);
           hide(productShow);
           hide(showImageDialog);
           hide(buyDialog);
@@ -558,32 +559,8 @@
 </head>
 
 <body id="uttrycksfull" class="gradient" onload="init()">
-  <div id="product_buy" class="product_buy hidden">
 
-    För att reservera tavlan, maila tavlans namn "<span id="product_buy_product_name"></span>" samt ditt namn och postadress till <b><a id="product_buy_email"></a></b><br>
-    Jag kommer inom några dagar att kontakta er för att komma överens om leverans/frakt. Betalning sker vid leverans och görs genom Swish, alternativt banköverföring.
-    <br><br>
-    Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll). Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.
-    <br><br>
-    <button id="close_buy_button">Stäng</button>
-  </div>
-  <div id="image_show" class="image_show hidden">
-    <div class="image_show_outer">
-      <button id="image_show_close">
-        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="icon icon-close" fill="none" viewBox="0 0 18 17">
-          <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
-          </path>
-        </svg>
-      </button>
-      <div class="image_show_inner">
-        <img id="image_show_el">
-      </div>
-    </div>
-  </div>
-
-  <a class="skip-to-content-link button visually-hidden" href="/#MainContent">
-    Gå vidare till innehåll
-  </a><!-- BEGIN sections: header-group -->
+  <!-- BEGIN sections: header-group -->
   <div id="section-sections--19417874596171__announcement-bar"
     class="section section-group-header-group announcement-bar-section">
 
@@ -807,6 +784,46 @@
   </div>
   <!-- END sections: header-group -->
 
+  <div id="product_buy" class="product_buy hidden">
+
+    För att reservera tavlan, maila tavlans namn "<span id="product_buy_product_name"></span>" samt ditt namn och postadress till <b><a id="product_buy_email"></a></b><br>
+    Jag kommer inom några dagar att kontakta er för att komma överens om leverans/frakt. Betalning sker vid leverans och görs genom Swish, alternativt banköverföring.
+    <br><br>
+    Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll). Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.
+    <br><br>
+    <button id="close_buy_button">Stäng</button>
+  </div>
+  <div id="image_show" class="image_show hidden">
+    <div class="image_show_outer">
+      <button id="image_show_close">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="icon icon-close" fill="none" viewBox="0 0 18 17">
+          <path d="M.865 15.978a.5.5 0 00.707.707l7.433-7.431 7.579 7.282a.501.501 0 00.846-.37.5.5 0 00-.153-.351L9.712 8.546l7.417-7.416a.5.5 0 10-.707-.708L8.991 7.853 1.413.573a.5.5 0 10-.693.72l7.563 7.268-7.418 7.417z" fill="currentColor">
+          </path>
+        </svg>
+      </button>
+      <div class="image_show_inner">
+        <img id="image_show_el">
+      </div>
+    </div>
+  </div>
+
+  <div id="product_show" class="product_show hidden">
+    <div>
+      <img id="mainImage">
+      <div class="product_extra_images">
+        <img id="img2">
+        <img id="img3">  
+      </div>
+    </div>
+    <div>
+      Uttrycksfull konst
+      <h1 id="productTitle"></h1>
+      <div id="price" style="font-size: larger;"></div>
+      <div id="description"></div>
+      <button id="buy_button">Köp</button>
+    </div>
+  </div>
+
   <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
     <section id="section-template--19417874202955__main" class="section section">
       <link href="/css/section-main-page.css" rel="stylesheet"
@@ -825,27 +842,11 @@
         }
       </style>
       <div class="page-width section-template--19417874202955__main-padding">
+        <a name="konst"></a>
         <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
-          Konst för hem och kontor<a name="konst"></a>
+          Konst för hem och kontor
         </h1>
         <div class="scroll-trigger animate--slide-in">
-
-          <div id="product_show" class="product_show hidden">
-            <div>
-              <img id="mainImage">
-              <div class="product_extra_images">
-                <img id="img2">
-                <img id="img3">  
-              </div>
-            </div>
-            <div>
-              Uttrycksfull konst
-              <h1 id="productTitle"></h1>
-              <div id="price" style="font-size: larger;"></div>
-              <div id="description"></div>
-              <button id="buy_button">Köp</button>
-            </div>
-          </div>
           <div id="product_list" class="product_list">
             <!-- lägg till här -->
 
@@ -895,8 +896,9 @@
       </div>
 
       <div class="page-width page-width--narrow section-template--19417874202955__main-padding">
+        <a name="inredning"></a>
         <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
-          Inredning &amp; Kreativa miljöer<a name="inredning"></a>
+          Inredning &amp; Kreativa miljöer
         </h1>
         <div class="rte scroll-trigger animate--slide-in">
           <h2>För företag och organisationer</h2>
@@ -962,8 +964,9 @@
       </div>
 
       <div class="page-width page-width--narrow section-template--19417874202955__main-padding">
+        <a name="om"></a>
         <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
-          Om<a name="om"></a>
+          Om
         </h1>
         <div class="rte scroll-trigger animate--slide-in">
           <p><img src="/img/IMG-4269_480x480.jpg" alt="" width="311" height="415" data-mce-fragment="1"
