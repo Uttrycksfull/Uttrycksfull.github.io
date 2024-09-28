@@ -490,6 +490,10 @@
           hide(showImageDialog);
           hide(buyDialog);
           window.document.title = 'Uttrycksfull - Konst';
+
+          if (parts.length == 1) {
+            document.getElementById(parts[0])?.scrollIntoView();
+          }
         }
       }
 
@@ -843,7 +847,7 @@
         }
       </style>
       <div class="page-width section-template--19417874202955__main-padding">
-        <a name="konst"></a>
+        <a id="konst"></a>
         <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
           Konst för hem och kontor
         </h1>
@@ -897,7 +901,7 @@
       </div>
 
       <div class="page-width page-width--narrow section-template--19417874202955__main-padding">
-        <a name="inredning"></a>
+        <a id="inredning"></a>
         <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
           Inredning &amp; Kreativa miljöer
         </h1>
@@ -965,7 +969,7 @@
       </div>
 
       <div class="page-width page-width--narrow section-template--19417874202955__main-padding">
-        <a name="om"></a>
+        <a id="om"></a>
         <h1 class="main-page-title page-title h0 scroll-trigger animate--fade-in">
           Om
         </h1>
