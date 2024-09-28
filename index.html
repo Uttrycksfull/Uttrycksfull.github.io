@@ -500,6 +500,7 @@
           history.pushState({}, "", url);
         }
         updateUi();
+        window.scrollTo(0,0);
 
         if (gtag) {
           gtag('event', 'page_view', {
@@ -517,7 +518,7 @@
           if (parts.length == 2) {
             setUrl(parts[0]);
           } else {
-            setUrl(null);
+            setUrl('');
           }
         }
       };
