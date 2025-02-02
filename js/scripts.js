@@ -75,7 +75,7 @@ const init = () => {
       const isSold = element.attributes.sold && element.attributes.sold.value === 'true';
 
       productTitle.innerText = title;
-      setSrc(imageElements[0], '/img/'+name+'/1_small.jpg');
+      setSrc(imageElements[0], images >= 1 ? '/img/'+name+'/1_small.jpg' : '');
       setSrc(imageElements[1], images >= 2 ? '/img/'+name+'/2_small.jpg' : '');
       setSrc(imageElements[2], images >= 3 ? '/img/'+name+'/3_small.jpg' : '');
       price.innerText = element.attributes.price.value + ' kr';
