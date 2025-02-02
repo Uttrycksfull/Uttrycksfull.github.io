@@ -12,6 +12,7 @@ const init = () => {
   const img3 = document.getElementById("img3");
   const price = document.getElementById("price");
   const description = document.getElementById("description");
+  const artText = document.getElementById("artText");
   const imageShowClose = document.getElementById("image_show_close");
   const buyDialog = document.getElementById("product_buy");
   const buyButton = document.getElementById("buy_button");
@@ -68,18 +69,20 @@ const init = () => {
       show(productShow);
 
       const element = productById[parts[0]];
+      const attr = Object.fromEntries(Array.from(element.attributes).map(item => [item.name, item.value]));
 
       const title = element.children[1].innerText;
-      const name = element.attributes.name.value;
-      const images = parseInt(element.attributes.images.value);
-      const isSold = element.attributes.sold && element.attributes.sold.value === 'true';
+      const name = attr.name;
+      const images = parseInt(attr.images);
+      const isSold = attr.sold === 'true';
 
       productTitle.innerText = title;
       setSrc(imageElements[0], images >= 1 ? '/img/'+name+'/1_small.jpg' : '');
       setSrc(imageElements[1], images >= 2 ? '/img/'+name+'/2_small.jpg' : '');
       setSrc(imageElements[2], images >= 3 ? '/img/'+name+'/3_small.jpg' : '');
-      price.innerText = element.attributes.price.value + ' kr';
-      description.innerText = element.attributes.description.value;
+      price.innerText = attr.price + ' kr';
+      artText.innerHTML = attr.arttext || '';
+      description.innerText = attr.description;
       hide(showImageDialog);
       hide(buyDialog);
 
