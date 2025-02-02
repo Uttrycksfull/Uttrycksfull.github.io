@@ -10,6 +10,9 @@ const init = () => {
   const mainImage = document.getElementById("mainImage");
   const img2 = document.getElementById("img2");
   const img3 = document.getElementById("img3");
+  const img4 = document.getElementById("img4");
+  const img5 = document.getElementById("img5");
+  const img6 = document.getElementById("img6");
   const price = document.getElementById("price");
   const description = document.getElementById("description");
   const artText = document.getElementById("artText");
@@ -62,7 +65,7 @@ const init = () => {
     const parts = (window.location.hash || '#').substring(1).split('-').filter(p=>p);
 
     document.body.classList.remove('overflow-hidden');
-    const imageElements = [mainImage, img2, img3];
+    const imageElements = [mainImage, img2, img3, img4, img5, img6];
 
     if (parts.length >= 1 && productById[parts[0]]) {
       hide(page);
@@ -80,6 +83,9 @@ const init = () => {
       setSrc(imageElements[0], images >= 1 ? '/img/'+name+'/1_small.jpg' : '');
       setSrc(imageElements[1], images >= 2 ? '/img/'+name+'/2_small.jpg' : '');
       setSrc(imageElements[2], images >= 3 ? '/img/'+name+'/3_small.jpg' : '');
+      setSrc(imageElements[3], images >= 4 ? '/img/'+name+'/4_small.jpg' : '');
+      setSrc(imageElements[4], images >= 5 ? '/img/'+name+'/5_small.jpg' : '');
+      setSrc(imageElements[5], images >= 6 ? '/img/'+name+'/6_small.jpg' : '');
       price.innerText = attr.price + ' kr';
       artText.innerHTML = attr.arttext || '';
       description.innerText = attr.description;
