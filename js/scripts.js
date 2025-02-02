@@ -50,6 +50,7 @@ const init = () => {
   
   const hide = (el) => el.classList.add('hidden');
   const show = (el) => el.classList.remove('hidden');
+  const toggle = (el) => el.classList.contains('hidden') ? show(el) : hide(el);
 
   const setSrc = (el, src) => {
     if (src === '') {
@@ -126,7 +127,12 @@ const init = () => {
       hide(buyDialog);
       window.document.title = 'Uttrycksfull - Konst';
 
+      console.log("parts", parts)
       if (parts.length == 1) {
+        if (parts[0] == 'lf') {
+          
+          Array.from(list.children).forEach(toggle);
+        }
         document.getElementById(parts[0])?.scrollIntoView();
       }
     }
@@ -184,6 +190,9 @@ const init = () => {
   mainImage.onclick = showImage(1);
   img2.onclick = showImage(2);
   img3.onclick = showImage(3);
+  img4.onclick = showImage(4);
+  img5.onclick = showImage(5);
+  img6.onclick = showImage(6);
 
   const showProduct = (element) => {
     setUrl(element.attributes.name.value);
