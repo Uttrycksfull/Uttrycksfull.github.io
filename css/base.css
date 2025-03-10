@@ -89,14 +89,17 @@
 	width: 100%;
 	height: 100%;
 	z-index: 1000;
-	background-color: #ffffff8c;
+	background-color: #ffffff;
 	--display: flex;
 	--align-items: flex-start;
 	--max-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .image_show_outer {
-	height: 100vh;
+	/**height: 100vh;**/
 }
 
 .image_show_inner {
@@ -130,7 +133,7 @@
 
 .image_show_inner>img {
 	width: 100%;
-	min-width: 1200px;
+	/**min-width: 1200px;**/
 	height: auto;
 	margin: auto;
 	overflow: hidden !important;
