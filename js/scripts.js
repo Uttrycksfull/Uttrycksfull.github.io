@@ -50,7 +50,8 @@ const init = () => {
   
   const hide = (el) => el.classList.add('hidden');
   const show = (el) => el.classList.remove('hidden');
-  const toggle = (el) => el.classList.contains('hidden') ? show(el) : hide(el);
+  const showLF = (el) => el.getAttribute("page") == 'lf' ? show(el) : hide(el);
+  const hideLF = (el) => el.getAttribute("page") == 'lf' ? hide(el) : show(el);
 
   const setSrc = (el, src) => {
     if (src === '') {
@@ -62,7 +63,7 @@ const init = () => {
     }
   };
 
-  let lastScroll = 0;
+  let lastScroll = -1;
 
   const updateUi = () => {
     const parts = (window.location.hash || '#').substring(1).split('-').filter(p=>p);
@@ -121,6 +122,7 @@ const init = () => {
       } else {
         window.document.title = 'Uttrycksfull - Konst - '+title;
       }
+      console.log("scroll to 0");
       window.scrollTo(0,0);
     } else {
       imageElements.forEach(el=>el.src='');
@@ -133,13 +135,18 @@ const init = () => {
       console.log("parts", parts)
       if (parts.length == 1) {
         if (parts[0] == 'lf') {
-          
-          Array.from(list.children).forEach(toggle);
+          Array.from(list.children).forEach(showLF);
+        } else {
+          Array.from(list.children).forEach(hideLF);
         }
-        document.getElementById(parts[0])?.scrollIntoView();
+        var el = document.getElementById(parts[0]);
+        if (el && lastScroll == -1) {
+          el.scrollIntoView();          
+          return;
+        }
       }
-
       window.scrollTo(0,lastScroll);
+      lastScroll = -1;
     }
   }
 
