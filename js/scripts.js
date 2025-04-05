@@ -62,6 +62,8 @@ const init = () => {
     }
   };
 
+  let lastScroll = 0;
+
   const updateUi = () => {
     const parts = (window.location.hash || '#').substring(1).split('-').filter(p=>p);
 
@@ -119,6 +121,7 @@ const init = () => {
       } else {
         window.document.title = 'Uttrycksfull - Konst - '+title;
       }
+      window.scrollTo(0,0);
     } else {
       imageElements.forEach(el=>el.src='');
       show(page);
@@ -135,6 +138,8 @@ const init = () => {
         }
         document.getElementById(parts[0])?.scrollIntoView();
       }
+
+      window.scrollTo(0,lastScroll);
     }
   }
 
@@ -145,7 +150,6 @@ const init = () => {
       history.pushState({}, "", url);
     }
     updateUi();
-    window.scrollTo(0,0);
 
     if (gtag) {
       gtag('event', 'page_view', {
@@ -195,6 +199,7 @@ const init = () => {
   img6.onclick = showImage(6);
 
   const showProduct = (element) => {
+    lastScroll = window.scrollY;
     setUrl(element.attributes.name.value);
   };
 
