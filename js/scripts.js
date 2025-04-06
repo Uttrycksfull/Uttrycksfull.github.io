@@ -122,7 +122,6 @@ const init = () => {
       } else {
         window.document.title = 'Uttrycksfull - Konst - '+title;
       }
-      console.log("scroll to 0");
       window.scrollTo(0,0);
     } else {
       imageElements.forEach(el=>el.src='');
@@ -132,7 +131,6 @@ const init = () => {
       hide(buyDialog);
       window.document.title = 'Uttrycksfull - Konst';
 
-      console.log("parts", parts)
       if (parts.length == 1) {
         if (parts[0] == 'lf') {
           Array.from(list.children).forEach(showLF);
@@ -158,7 +156,7 @@ const init = () => {
     }
     updateUi();
 
-    if (gtag) {
+    if (gtag && window.location.hostname.includes('uttrycksfull')) {
       gtag('event', 'page_view', {
         page_title: window.document.title,
         page_location: window.location.href
