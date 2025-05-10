@@ -1,5 +1,7 @@
 document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
 
+const DISCLAIMER = 'Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll). Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.';
+
 const init = () => {
   const productShow = document.getElementById('product_show');
   const showImageDialog = document.getElementById('image_show');
@@ -15,6 +17,8 @@ const init = () => {
   const img6 = document.getElementById("img6");
   const price = document.getElementById("price");
   const description = document.getElementById("description");
+  const disclaimer = document.getElementById("disclaimer");
+  const buyDisclaimer = document.getElementById("product_buy_disclaimer");
   const artText = document.getElementById("artText");
   const imageShowClose = document.getElementById("image_show_close");
   const buyDialog = document.getElementById("product_buy");
@@ -93,6 +97,9 @@ const init = () => {
       price.innerText = attr.price + ' kr';
       artText.innerHTML = attr.arttext || '';
       description.innerText = attr.description;
+      disclaimer.innerText = DISCLAIMER;
+      buyDisclaimer.innerText = DISCLAIMER;
+
       hide(showImageDialog);
       hide(buyDialog);
 
