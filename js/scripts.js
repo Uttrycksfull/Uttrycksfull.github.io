@@ -168,6 +168,18 @@ const init = () => {
         page_title: window.document.title,
         page_location: window.location.href
       });
+
+      try {
+        // heap
+
+        // mixpanel
+        mixpanel.track('View art', {
+          page_title: window.document.title,
+          page_location: window.location.href
+        });
+
+        // amplitude
+      } catch(e){}
     }
   };
 
