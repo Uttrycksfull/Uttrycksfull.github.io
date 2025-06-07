@@ -2,6 +2,15 @@ document.documentElement.className = document.documentElement.className.replace(
 
 const DISCLAIMER = 'Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll). Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.';
 
+const getUserId = () => {
+  let userId = window.localStorage.getItem('userId');
+  if (!userId) {
+    userId = Math.random().toString(16).slice(2);
+    window.localStorage.setItem('userId', userId);
+  }
+  return userId;
+};
+
 const init = () => {
   const productShow = document.getElementById('product_show');
   const showImageDialog = document.getElementById('image_show');
@@ -33,10 +42,13 @@ const init = () => {
 
   const productById = {};
 
+  const userId = getUserId();
+
   Array.from(list.children).forEach(product=>{
     if (!product.attributes.name) {
       return;
     }
+    product.id = product.attributes.name;
     const div1 = document.createElement('div');
     const div2 = document.createElement('div');
     const img = document.createElement('img');
@@ -45,8 +57,10 @@ const init = () => {
     div1.appendChild(img);
 
     div1.className = 'product_image';
+    div1.id=product.attributes.name+'_image';
     div2.className = 'product_title';
     div2.innerText = product.attributes.title.value;
+    div2.id=product.attributes.name+'_title';
 
     product.appendChild(div1);
     product.appendChild(div2);
@@ -171,11 +185,13 @@ const init = () => {
 
       try {
         // heap
-
+        heap.identify(userId);
+        
         // mixpanel
         mixpanel.track('View art', {
           page_title: window.document.title,
-          page_location: window.location.href
+          page_location: window.location.href,
+          userId: userId
         });
 
         // amplitude
