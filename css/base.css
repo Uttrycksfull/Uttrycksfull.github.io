@@ -50,11 +50,19 @@
 .product_show>div {
 	width: min(430px, 90%);
 	margin: 16px;
+	margin-top: 24px;
 }
 
 .product_show>div>img {
 	width: 100%;
 	cursor: pointer;
+}
+
+.product_show>div>a {
+	display: block;
+	margin-top: -24px;
+	margin-bottom: 16px;
+	color: black;
 }
 
 .product_show h1 {

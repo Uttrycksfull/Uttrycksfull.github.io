@@ -18,6 +18,7 @@ const init = () => {
   const page = document.getElementById('MainContent');
   const list = document.getElementById('product_list');
   const productTitle = document.getElementById("productTitle");
+  const linkback = document.getElementById("linkback");
   const mainImage = document.getElementById("mainImage");
   const img2 = document.getElementById("img2");
   const img3 = document.getElementById("img3");
@@ -113,6 +114,7 @@ const init = () => {
       description.innerText = attr.description;
       disclaimer.innerText = DISCLAIMER;
       buyDisclaimer.innerText = DISCLAIMER;
+      linkback.href = '/konst' + (attr.page === 'lf' ? '#lf' : '');
 
       hide(showImageDialog);
       hide(buyDialog);
