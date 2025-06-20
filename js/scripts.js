@@ -12,6 +12,14 @@ const getUserId = () => {
 };
 
 const init = () => {
+
+  if (!window.location.hash && window.location.search && window.location.search.includes('%23')) {
+    const parts = decodeURIComponent(window.location.search).split('#');
+    if (parts && parts.length > 1 && parts[1]) {
+      window.location.hash = parts[1];
+    }
+  }
+
   const productShow = document.getElementById('product_show');
   const showImageDialog = document.getElementById('image_show');
   const showImageEl = document.getElementById('image_show_el');
