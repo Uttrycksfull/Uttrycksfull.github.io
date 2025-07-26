@@ -185,25 +185,11 @@ const init = () => {
     }
     updateUi();
 
-    if (gtag && window.location.hostname.includes('uttrycksfull')) {
+    if (gtag && window.location.hostname.includes('.se')) {
       gtag('event', 'page_view', {
         page_title: window.document.title,
         page_location: window.location.href
       });
-
-      try {
-        // heap
-        heap.identify(userId);
-        
-        // mixpanel
-        mixpanel.track('View art', {
-          page_title: window.document.title,
-          page_location: window.location.href,
-          userId: userId
-        });
-
-        // amplitude
-      } catch(e){}
     }
   };
 
