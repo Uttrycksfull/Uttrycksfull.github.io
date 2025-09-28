@@ -1,6 +1,8 @@
 document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
 
-const DISCLAIMER = 'Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll). Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.';
+const company = window.location.hostname.includes('uttrycksfull') ? 'Uttrycksfull' : 'Evelina Häll';
+
+const DISCLAIMER = 'Tavlorna säljs utan moms och köpet görs direkt av konstnären (Evelina Häll).' + (window.location.hostname.includes('uttrycksfull') ? ' Försäljningen av tavlor sker inte genom bolaget Uttrycksfull AB.' : '');
 
 const getUserId = () => {
   let userId = window.localStorage.getItem('userId');
@@ -37,6 +39,8 @@ const init = () => {
   const img9 = document.getElementById("img9");
   const price = document.getElementById("price");
   const description = document.getElementById("description");
+  const display_vaxjo = document.getElementById("display_växjö");
+  const display_norrgavel = document.getElementById("display_norrgavel");
   const disclaimer = document.getElementById("disclaimer");
   const buyDisclaimer = document.getElementById("product_buy_disclaimer");
   const artText = document.getElementById("artText");
@@ -111,6 +115,7 @@ const init = () => {
       const name = attr.name;
       const images = parseInt(attr.images);
       const isSold = attr.sold === 'true';
+      const onDisplay = attr.display;
 
       productTitle.innerText = title;
       for (let i = 0; i < 9; i++) {
@@ -118,9 +123,20 @@ const init = () => {
       }
       price.innerText = attr.price + (attr.price.endsWith('kr/st') ? '' : ' kr');
       artText.innerHTML = attr.arttext || '';
-      description.innerText = attr.description;
+      description.innerText = attr.description + '. ';
       disclaimer.innerText = DISCLAIMER;
       buyDisclaimer.innerText = DISCLAIMER;
+
+      if (onDisplay === 'växjö') {
+        show(display_vaxjo);
+        hide(display_norrgavel);
+      } else if (onDisplay === 'norrgavel') {
+        hide(display_vaxjo);
+        show(display_norrgavel);
+      } else {
+        hide(display_vaxjo);
+        hide(display_norrgavel);
+      }
 
       hide(showImageDialog);
       hide(buyDialog);
@@ -139,17 +155,17 @@ const init = () => {
           buyProductEmail.href = 'mailto:'+emailAddress+'?subject=Köpförfrågan '+title;
           buyProductEmail.innerText = emailAddress;
           show(buyDialog);
-          window.document.title = 'Uttrycksfull - Konst - '+title+ ' - Köp';
+          window.document.title = company + ' - Konst - '+title+ ' - Köp';
         } else {
           const index = parseInt(parts[1]) - 1;
           show(showImageDialog);
           document.body.classList.add('overflow-hidden');
           showImageEl.src = imageElements[index].src.replace('_small', '_large');
           window.scrollTo(0, 0);
-          window.document.title = 'Uttrycksfull - Konst - '+title+ ' - '+parts[1];
+          window.document.title = company + ' - Konst - '+title+ ' - '+parts[1];
         }
       } else {
-        window.document.title = 'Uttrycksfull - Konst - '+title;
+        window.document.title = company + ' - Konst - '+title;
       }
       window.scrollTo(0,0);
     } else {
@@ -158,7 +174,7 @@ const init = () => {
       hide(productShow);
       hide(showImageDialog);
       hide(buyDialog);
-      window.document.title = 'Uttrycksfull - Konst';
+      window.document.title = company + ' - Konst';
 
       if (parts.length == 1) {
         if (parts[0] == 'lf') {
