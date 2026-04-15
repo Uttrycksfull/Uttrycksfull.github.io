@@ -41,6 +41,7 @@ const init = () => {
   const description = document.getElementById("description");
   const display_vaxjo = document.getElementById("display_växjö");
   const display_norrgavel = document.getElementById("display_norrgavel");
+  const display_sodersblommor = document.getElementById("display_sodersblommor");
   const disclaimer = document.getElementById("disclaimer");
   const buyDisclaimer = document.getElementById("product_buy_disclaimer");
   const artText = document.getElementById("artText");
@@ -121,7 +122,7 @@ const init = () => {
       for (let i = 0; i < 9; i++) {
         setSrc(imageElements[i], images >= (i+1) ? '/img/'+name+'/'+(i+1)+'_small.jpg' : '');
       }
-      price.innerText = attr.price + (attr.price.endsWith('kr/st') ? '' : ' kr');
+      price.innerText = attr.price + (attr.price.includes('kr') ? '' : ' kr');
       artText.innerHTML = attr.arttext || '';
       description.innerText = attr.description + '. ';
       disclaimer.innerText = DISCLAIMER;
@@ -130,12 +131,19 @@ const init = () => {
       if (onDisplay === 'växjö') {
         show(display_vaxjo);
         hide(display_norrgavel);
+        hide(display_sodersblommor);
       } else if (onDisplay === 'norrgavel') {
         hide(display_vaxjo);
         show(display_norrgavel);
+        hide(display_sodersblommor);
+      } else if (onDisplay === 'sodersblommor') {
+        hide(display_vaxjo);
+        hide(display_norrgavel);
+        show(display_sodersblommor);
       } else {
         hide(display_vaxjo);
         hide(display_norrgavel);
+        hide(display_sodersblommor);
       }
 
       hide(showImageDialog);
